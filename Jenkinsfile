@@ -3,11 +3,12 @@ pipeline {
 
     stages {
         stage('Git-Checkout') {
-            steps {
-                echo "Checking out from Git Repo"
-                git 'https://github.com/viyanneymariajoseph/Testing_Jenkins_Automation.git'
-            }
-        }
+    steps {
+        echo 'Checking out from Git Repo'
+        git url: 'https://github.com/viyanneymariajoseph/Testing_Jenkins_Automation.git', branch: 'main'
+    }
+}
+
 
         stage('Build') {
             steps {
