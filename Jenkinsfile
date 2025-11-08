@@ -5,59 +5,45 @@ pipeline {
         stage('Git-Checkout') {
             steps {
                 echo "Checking out from Git Repo"
+                git 'https://github.com/viyanneymariajoseph/Testing_Jenkins_Automation.git'
             }
         }
 
         stage('Build') {
             steps {
                 echo "Building the checked-out project!"
+                bat 'Build.bat'
             }
         }
 
         stage('Unit-Test') {
             steps {
                 echo "Running JUnit Tests"
+                bat 'Unit.bat'
             }
         }
 
         stage('Quality-Gate') {
             steps {
                 echo "Verifying Quality Gates"
+                bat 'Quality.bat'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Deploying to Stage Environment for more tests!"
-                script {
-                    // Run Deploy.bat and ignore harmless Robocopy exit codes
-                    def result = bat(script: 'Deploy.bat', returnStatus: true)
-                    if (result >= 8) {
-                        error "Deployment failed (Robocopy exit code ${result})"
-                    } else {
-                        echo "Deployment succeeded (Robocopy exit code ${result})"
-                    }
-                }
+                echo "Deploying to local IIS"
+                bat 'Deploy.bat'
             }
         }
     }
 
     post {
-        always {
-            echo 'This will always run'
-        }
         success {
-            echo 'This will run only if successful'
+            echo '✅ Build and Deploy completed successfully!'
         }
         failure {
-            echo 'This will run only if failed'
-        }
-        unstable {
-            echo 'This will run only if the run was marked as unstable'
-        }
-        changed {
-            echo 'This will run only if the state of the Pipeline has changed'
-            echo 'For example, if the Pipeline was previously failing but is now successful'
+            echo '❌ Build failed. Please check logs.'
         }
     }
 }
