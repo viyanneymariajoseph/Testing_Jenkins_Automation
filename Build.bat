@@ -13,7 +13,7 @@ if not exist package.json (
 REM --- Install dependencies if node_modules missing ---
 if not exist node_modules (
   echo Installing dependencies...
-  call npm install
+  call npm install --legacy-peer-deps
 ) else (
   echo node_modules already exists, skipping npm install
 )
