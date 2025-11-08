@@ -1,0 +1,74 @@
+<div class="body">
+  <div class="login-container">
+    <div class="left-panel">
+      <div class="logo-area">
+        <img>
+
+        <!-- <img src="../../../assets/img/brand/Logo2.jpg" alt="Crown Information Management Logo" class="logo" /> -->
+        <img src="../assets/img/brand/Logo2.jpg" alt="Crown Information Management Logo" class="logo" />
+        <!-- <h1 class="company-name">CROWN</h1> -->
+        <p class="company-tagline">WORK UNCOMPLICATED</p>
+        <!-- <p class="slogan"><em>The power of memory</em></p> -->
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <h1>Welcome Back!</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div>
+            <label class="text-light">UserID</label>
+            <input type="email" placeholder="Enter your UserID" formControlName="username" maxlength="50"
+              class="form-control" />
+            <div class="errorMsg-feedback" *ngIf="f.username.touched && f.username.hasError('required')">
+              *User ID Required
+            </div>
+          </div>
+
+          <div class="input-group input-group-icon">
+            <label class="text-light">Password</label>
+            <div class="input-group">
+              <input [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your Password"
+                formControlName="password" class="form-control rounded-2" required maxlength="50" />
+              <div class="input-group-append">
+                <button type="button" (click)="togglePasswordVisibility()">
+                  <i class="fa" [ngClass]="{ 'fa-eye': !hidePassword, 'fa-eye-slash': hidePassword }"></i>
+                </button>
+              </div>
+            </div>
+            <div class="errorMsg-feedback" *ngIf="f.password.touched && f.password.hasError('required')">
+              *Enter password
+            </div>
+          </div>
+        </div>
+
+        <button [disabled]="loginForm.invalid" type="submit" class="sign_btn">Sign In</button>
+      </form>
+
+      <div class="login_heading d-flex justify-content-end pr-1 pl-4 pb-2">
+        <a href="javascript:void(0)" (click)="openHelp()">Help?</a>&nbsp; |
+        <a routerLink="/forgot-password">Forgot Password?</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="help-popup" *ngIf="showHelp" (click)="closeHelp()">
+  <div class="help-content" (click)="$event.stopPropagation()">
+    <span class="close-btn" (click)="closeHelp()">&times;</span>
+
+    <h2 class="help-title">How to Login?</h2>
+    <ol>
+      <li>Enter your <b>UserID</b> and <b>Password</b>, then click <b>Sign in</b>.</li>
+      <li><b>Forgot Password?</b> You can reset it via email.</li>
+    </ol>
+
+    <h3 class="help-subtitle">Need More Help?</h3>
+    <p class="help-text">We are available here:</p>
+    <p class="help-contact">
+      <i class="fa fa-envelope"></i>
+      <a href="mailto:estoragesupport@crownims.com">estoragesupport@crownims.com</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,270 @@
+<div class="DataEntryMainContainer">
+  <div class="header pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <!-- <h6 class="h2 text-white d-inline-block mb-0">Retrieval</h6> -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> Process </a>
+                </li>
+                <li aria-current="page" class="breadcrumb-item active">
+                  Refilling Request
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h3 class=" mb-0">Refilling Request</h3>
+              <p class=" text-sm mb-0"></p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+              <button type="button" class="btn bg-success h3 px-4 py-2" style="color: white;"
+                (click)="Add(InwardFormPopup)">
+                <i class="fa fa-plus"></i>&nbsp;Refilling File
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="dataTables_wrapper py-4 checklist-table">
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              
+              <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+                (input)="searchTable($event)" class="global-search search">
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                  {{col.header}}
+                </th>
+                <th style="width: 10%;">
+                  ACTION
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of headerList">
+                  {{car[col.field]}}
+                </td>
+                <td>
+                  <button type="button" style="padding:0 0 5px 4px" class="btn text-success h3"
+                    (click)="Editinward1(InwardFormPopupaAck,car)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #InwardFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="pt-2 pl-3">
+        <h2 style="border-bottom: 1px solid black;">ADD REFILLING REQUEST</h2>
+      </div>
+      <div class="m-2 p-3">
+        <form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label for="main_file_count">Request Number</label>
+                <input formControlName="request_number" type="text" class="form-control" placeholder="Request Number"
+                  readonly style="height: 36px;"
+                  [ngClass]="{'is-invalid': PickupControls['request_number'].invalid && (PickupControls['request_number'].touched || submitted)}">
+                <div
+                  *ngIf="PickupControls['request_number'].invalid && (PickupControls['request_number'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div ngIf="PickupControls['request_number'].hasError('request_number')"> Request Number is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-4">
+              <div class="form-group">
+                <label class="form-control-label" for="Branch">
+                  Item Code
+                </label>
+                <select class="form-select" formControlName="item_code"
+                  [ngClass]="{'is-invalid': FormControls['item_code'].invalid && (FormControls['item_code'].touched || submitted)}">
+                  <option value="" selected disabled>--Select--</option>
+                  <option value="Container">Container</option>
+                  <option value="File">File</option>
+                </select>
+                <div *ngIf="FormControls['item_code'].invalid && (FormControls['item_code'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div ngIf="FormControls['item_code'].hasError('required')"> Item Code is required.</div>
+                </div>
+              </div>
+            </div> -->
+            <div class="col-4">
+              <div class="form-group px-0">
+                <label class="form-control-label" for="Branch">Item Number</label>
+                <input formControlName="item_number" type="text" class="form-control" placeholder="Request Number"
+                  style="height: 36px;"
+                  [ngClass]="{'is-invalid': PickupControls['item_number'].invalid && (PickupControls['item_number'].touched || submitted)}">
+                <div
+                  *ngIf="PickupControls['item_number'].invalid && (PickupControls['item_number'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div ngIf="PickupControls['item_number'].hasError('required')"> Item Number is required.</div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
+            <button type="button" class="btn btn-danger" (click)="openPopup(BranchFormPopup)">Bulk Request</button>
+            <button type="button" class="btn btn-success" (click)="closeRequest()">Close Refilling Request</button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="dataTables_wrapper py-4 checklist-table" style="max-height: 400px;overflow-y: auto;">
+        <p-table [paginator]="true" [rows]="10" [value]="formattedData1" [autoLayout]="true"
+          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first1)]="first1"
+          (onPage)="paginate1($event)" [loading]="loading"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+          <ng-template pTemplate="caption">
+            
+            <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+              (input)="searchTable1($event)" class="global-search search">
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of headerList1; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+            <tr>
+              <td *ngFor="let col of headerList1">
+                {{car[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class=" card">
+        <div class=" card-header">
+          <h3 class=" mb-0">Bulk Upload</h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col">
+                <div class="form-group pt-2">
+                  <input type="file" class="form-control form-control-sm bg-light" name="csvReader" id="csvReader"
+                    (change)="uploadListener($event)" accept=".csv">
+                  <span class="selected-file-name"></span>
+                </div>
+              </div>
+              <div class="col d-flex justify-content-center align-items-start pt-2"><button
+                  class="btn btn-danger btn-sm" (click)="downloadFile()">Download Csv Format</button></div>
+            </div>
+            <br>
+            <br>
+            <div class="d-flex align-items-end justify-content-end">
+              <button class="btn btn-primary" type="submit" (click)="upload()">
+                Upload
+              </button>
+              <button type="button" class="btn btn-warning" (click)="closeModel1()">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #InwardFormPopupaAck let-c="close" let-d="dismiss" let-modal>
+
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="pt-2 pl-3">
+        <h2 style="border-bottom: 1px solid black;">Refilling Acknowledge</h2>
+      </div>
+      <div class="m-2 p-3">
+        <form [formGroup]="pickupForm">
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label for="main_file_count">Request Number</label>
+                <input formControlName="request_number" type="text" class="form-control" placeholder="Request Number"
+                  readonly style="height: 36px;"
+                  [ngClass]="{'is-invalid': PickupControls['request_number'].invalid && (PickupControls['request_number'].touched || submitted)}">
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
+          </div>
+        </form>
+      </div>
+      <div class="dataTables_wrapper py-4 checklist-table" style="max-height: 400px;overflow-y: auto;">
+        <p-table [paginator]="true" [rows]="10" [value]="formattedData1" [autoLayout]="true"
+          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first1"
+          (onPage)="paginate1($event)" [loading]="loading"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+          <ng-template pTemplate="caption">
+            
+            <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+              (input)="searchTable1($event)" class="global-search search">
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of headerList1; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+            <tr>
+              <td *ngFor="let col of headerList1">
+                {{car[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</ng-template>

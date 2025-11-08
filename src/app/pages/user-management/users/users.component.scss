@@ -1,0 +1,67 @@
+.modal-content-full-width  {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #ececec !important 
+}
+
+.modal-header-full-width  {
+    border-bottom: 1px solid #9ea2a2 !important;
+}
+
+.modal-footer-full-width  {
+    border-top: 1px solid #9ea2a2 !important;
+}
+
+::ng-deep .user-modal-lg .modal-dialog {
+  max-width: 1000px !important; 
+}
+
+
+::ng-deep .user-modal-lg .card {
+  margin: 0;
+  padding: 1rem 0;
+}
+
+
+.btn-save:hover {
+  background-color: #28a745 !important; /* Green */
+  color: white !important;
+}
+
+.btn-back:hover,
+.btn-reset:hover {
+  background-color: #343a40 !important; /* Dark grey */
+  color: white !important;
+}
+.btn-close-batch:hover {
+background-color: #0A424A !important; /* Yellow */
+color: white !important;
+}
+    
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 13px;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+ 
+.status-approved {
+  color: #198754;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+// .btn-close-batch:hover {
+//   background-color: #ffc107 !important; /* Yellow */
+//   color: black !important;
+// }
+.badge-secondary {
+  background-color: #6c757d;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+}

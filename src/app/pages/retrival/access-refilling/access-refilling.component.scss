@@ -1,0 +1,42 @@
+::ng-deep .ui-tabview.ui-tabview-top .ui-tabview-nav li {
+    // margin-right: 14px !important;
+    padding: 5px 10px;
+}
+
+::ng-deep .ui-tabview.ui-tabview-top .ui-tabview-nav li a{
+ font-size: 12px !important;
+}
+
+::ng-deep .ui-widget{
+    font-size: 17px !important;
+}
+
+dynamic-width{
+    .dynamic-width {
+        width: auto; 
+        min-width: 100px; 
+        max-width: 300px; 
+        font-size: 1rem; 
+        padding: 5px 10px;
+    }
+}
+
+
+.custom-dropdown {
+    height: 38px; 
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.custom-dropdown option {
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .col-sm-3 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

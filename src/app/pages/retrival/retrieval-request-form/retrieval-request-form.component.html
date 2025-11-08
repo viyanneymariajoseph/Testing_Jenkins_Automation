@@ -1,0 +1,248 @@
+<br>
+<br><br><br><br>
+<div class=" container-fluid">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="AddFileInwardForm">
+        <div class="card px-4 py-2">
+          <div class="form-row">
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="request_number">Request Number</label>
+              <div class="">
+                <input name="request_number" type="text" readonly placeholder="Request Number"
+                  class="form-control form-control-md" formControlName="request_number"
+                  [ngClass]="{'is-invalid': FormControls['request_number'].invalid && (FormControls['request_number'].touched || submitted)}" />
+                <div
+                  *ngIf="FormControls['request_number'].invalid && (FormControls['request_number'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControls['request_number'].hasError('required')">* Request Number is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="carton_number">Carton Number</label>
+              <div class="">
+                <input name="carton_number" type="text" formControlName="carton_number" placeholder="Carton Number"
+                  class="form-control form-control-md" (change)="getCartonDetails()"
+                  [ngClass]="{'is-invalid': FormControls['carton_number'].invalid && (FormControls['carton_number'].touched || submitted)}" />
+                <div
+                  *ngIf="FormControls['carton_number'].invalid && (FormControls['carton_number'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControls['carton_number'].hasError('required')">* Carton Number is required.</div>
+                  <div *ngIf="FormControls['carton_number'].hasError('hasSpace')">* Carton Number must not contain
+                    spaces.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="department">Department</label>
+              <div class="">
+                <input name="department" type="text" readonly formControlName="department" placeholder="Department"
+                  class="form-control form-control-md"
+                  [ngClass]="{'is-invalid': FormControls['department'].invalid && (FormControls['department'].touched || submitted)}" />
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="document_type">Document Type</label>
+              <div class="">
+                <input name="document_type" type="text" readonly formControlName="document_type"
+                  placeholder="Document Type" class="form-control form-control-md"
+                  [ngClass]="{'is-invalid': FormControls['document_type'].invalid && (FormControls['document_type'].touched || submitted)}" />
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="detail_document_type">Detail Document Type</label>
+              <div class="">
+                <input name="detail_document_type" type="text" readonly formControlName="detail_document_type"
+                  placeholder="Detail Document Type" class="form-control form-control-md"
+                  [ngClass]="{'is-invalid': FormControls['detail_document_type'].invalid && (FormControls['detail_document_type'].touched || submitted)}" />
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="retention_period">WarehouseName</label>
+              <div class="">
+                <input name="WarehouseName" type="text" readonly formControlName="WarehouseName"
+                  placeholder="Retention WarehouseName" class="form-control form-control-md"
+                  [ngClass]="{'is-invalid': FormControls['WarehouseName'].invalid && (FormControls['WarehouseName'].touched || submitted)}" />
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label class="form-control-label" for="detail_location">Detail Location</label>
+              <div class="">
+                <input name="detail_location" type="text" readonly formControlName="detail_location"
+                  placeholder="Detail Location" class="form-control form-control-md"
+                  [ngClass]="{'is-invalid': FormControls['detail_location'].invalid && (FormControls['detail_location'].touched || submitted)}" />
+              </div>
+            </div>
+          </div>
+
+          <div class="w-100">
+           <div class="d-flex justify-content-end align-items-end">
+
+  <button 
+    type="button" 
+    class="btn btn-outline-success" 
+    [disabled]="AddFileInwardForm.invalid"
+    (click)="SaveData()">
+    Save
+  </button>
+
+  <button 
+    class="btn btn-outline-primary" 
+    type="button"
+    (click)="onBack()">
+    Back
+  </button>
+
+  <button 
+    type="btn btn-outline-info" 
+    class="btn btn-sm btn-neutral btn-grey-hover"
+    (click)="OnReset()">
+    Reset
+  </button>
+
+  <button 
+    class="btn btn-outline-danger" 
+    type="button"
+    (click)="CloseRequest()" 
+    [disabled]="formattedData.length == 0">
+    Close Request
+  </button>
+
+</div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--3">
+<p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+  <ng-template pTemplate="caption">
+
+    <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+      (input)="searchTable($event)" class="global-search search">
+  </ng-template>
+  <ng-template pTemplate="header">
+  <tr>
+    <!-- ACTION column first -->
+    <th style="width: 5%; white-space: nowrap">ACTION</th>
+ 
+    <!-- Dynamic columns -->
+    <th *ngFor="let col of headerList; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+      {{ col.header }}
+    </th>
+  </tr>
+</ng-template>
+ 
+<ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+  <tr>
+    <!-- ACTION column data -->
+   <td style="white-space: nowrap">
+      <a
+        type="button" tooltip="Delete Request"
+       style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+        class="btn btn-icon btn-icon-only"
+        (click)="DeleteRecord(car)"
+      >
+        <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+      </a>
+    </td>
+ 
+    <!-- Dynamic column data -->
+    <td *ngFor="let col of headerList">
+      {{ car[col.field] }}
+    </td>
+  </tr>
+</ng-template>
+ 
+</p-table>
+</div>
+<!-- <ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0"> 
+      <div class=" card">
+        <div class=" card-header">
+          <h3 class=" mb-0">Bulk Upload</h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col">
+                <div class="form-group pt-2">
+                  <input type="file" class="form-control form-control-sm bg-light" name="csvReader" id="csvReader"
+                    (change)="uploadListener($event)" accept=".csv">
+                  <span class="selected-file-name"></span>
+                </div>
+              </div>
+              <div class="col d-flex justify-content-center align-items-start pt-2"><button
+                  class="btn btn-danger btn-sm" (click)="downloadFile()">Download Csv Format</button></div>
+            </div>
+            <br>
+            <br>
+            <div class="d-flex align-items-end justify-content-end">
+              <button class="btn btn-primary" type="submit" (click)="upload()">
+                Upload
+              </button>
+              <button type="button" class="btn btn-warning" (click)="OnReset()">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+
+<ng-template #AddressFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <!-- <div class=" card"> -->
+        <div class=" card-header">
+          <h3 class=" mb-0">Dispatch Address</h3>
+        <!-- </div> -->
+        <div class="card-body">
+          <form [formGroup]="dispatchForm">
+            <div class="col">
+              <div class="form-group pt-2">
+                <textarea type="text" class="form-control" formControlName="dispatch_address"
+                  placeholder="Dispatch Address"
+                  [ngClass]="{'is-invalid': FormControlss['dispatch_address'].invalid && (FormControlss['dispatch_address'].touched || submitteds)}">
+                        </textarea>
+                <div
+                  *ngIf="FormControlss['dispatch_address'].invalid && (FormControlss['dispatch_address'].touched || submitteds)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControlss['dispatch_address'].hasError('required')">* Address is required.</div>
+                  <div *ngIf="FormControlss['dispatch_address'].hasError('noWhitespace')">* Address cannot be empty or
+                    just spaces.</div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class="d-flex align-items-end justify-content-end">
+              <button class="btn btn-primary" type="submit" [disabled]="dispatchForm.invalid" (click)="uploads()">
+                Close Request
+              </button>
+              <button type="button" class="btn btn-warning" (click)="OnReset()">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+  </div>
+</ng-template>

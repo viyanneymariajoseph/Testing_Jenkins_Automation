@@ -1,0 +1,509 @@
+<div class="Page_color">
+  <div class="header pb-6">
+    <div class="header-body">
+      <div class="align-items-center py-4">
+        <div class="dashboard">
+          <h2 class="text-white" style="color: white;">Dashboard</h2>
+          <div class="well">
+            <ul class="nav nav-tabs" role="tablist">
+              <li>
+                <a href="#inventory" class="active" data-toggle="tab">Inventory</a>
+              </li>
+
+              <li>
+                <a href="#retrieval" data-toggle="tab">Retrieval</a>
+                <!-- From warehouse to client -->
+              </li>
+
+              <li>
+                <a href="#refiling" data-toggle="tab">Refiling</a>
+                <!-- From warehouse to client -->
+              </li>
+            </ul>
+
+            <div id="myTabContent" class="tab-content">
+
+
+
+              <!-- INVENTORY SECTION -->
+
+              <div class="tab-pane active in" id="inventory">
+                <div class="row d-flex align-items-center">
+                  <!-- Period Dropdown -->
+                  <div class="col-md-2">
+                    <div class="box_heanding">
+                      <select [(ngModel)]="selectedPeriod" placeholder="Select"
+                        (change)="FilterData($event.target.value)" class="form-control"
+                        style="box-shadow: none; font-size: 10px;">
+                        <!-- <option value="">Select a period</option> -->
+                        <option *ngFor="let option of periodOptions" [value]="option.value"
+                          style="border-radius: 20px;">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 d-flex align-items-center">
+                    <!-- Date Picker Form -->
+                    <form [formGroup]="ContentSearchForm" class="form-row d-flex align-items-center">
+                      <!-- From Date -->
+                      <div class="col-md-4">
+                        <input type="text" formControlName="fromdate" placeholder="From Date" class="form-control"
+                          bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                          [maxDate]="currentDate" [readOnly]="!dateselection"
+                          style="box-shadow: none !important; box-shadow: none; font-size: 11px;" />
+                      </div>
+
+                      <!-- To Date -->
+                      <div class="col-md-4">
+                        <input type="text" formControlName="todate" placeholder="To Date" class="form-control"
+                          bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                          [minDate]="ContentSearchForm.get('fromdate')?.value" [maxDate]="currentDate"
+                          [readOnly]="!dateselection"
+                          style="box-shadow: none !important; box-shadow: none; box-shadow: inset; font-size: 11px;" />
+                      </div>
+
+                      <!-- Buttons -->
+                      <div class="col-md-3 d-flex">
+                        <button class="btn searchbtn" title="Search" [disabled]="!dateselection"
+                          (click)="searchData()">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn searchbtn" title="Refresh" (click)="refreshPage()">
+                          Refresh
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="box">
+                      <!-- Should contain both details of Carton Inventory and Inventory Approval -->
+                      <div class="heading">Carton Inventory Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(1, InwardFormPopup, 'No of Batches')">
+                          No of Batches <span>{{ BatchID }}</span>
+                        </p>
+                        <p (click)="OpenData(2, InwardFormPopup, 'No of Cartons')">
+                          No of Cartons <span>{{ CartonNo }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="box">
+                      <!-- Pickup schedule and Inventory Ack -->
+                      <div class="heading">Inventory APPROVAL Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(3, InwardFormPopup, 'No of Cartons Approved')">
+                          No of Cartons Approved<span>{{ Approved }}</span>
+                        </p>
+                        <p (click)="OpenData(4, InwardFormPopup, 'No of Cartons Rejected')">
+                          No of Cartons Rejected <span>{{ Rejected }}</span>
+                        </p>
+                        <p (click)="OpenData(5, InwardFormPopup, 'No of Cartons Pending')">
+                          No of Cartons Pending <span>{{ Pending }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Inventory Acknowledge Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(6, InwardFormPopup, 'No of Cartons Received')">
+                          No of Cartons Received<span>{{ Carton_Received }}</span>
+                        </p>
+                        <p (click)="OpenData(7, InwardFormPopup, 'No of Cartons Not Received')">
+                          No of Cartons Not Received <span>{{ Carton_Not_Received }}</span>
+                        </p>
+                        <p (click)="OpenData(8, InwardFormPopup, 'No of Cartons Pending')">
+                          No of Cartons Pending <span>{{ Carton_Pending }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Carton Storage Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(9, InwardFormPopup, 'No of Cartons Sent To Storage')">
+                          No of Cartons Sent To Storage<span>{{ Carton_sent_to_storage }}</span>
+                        </p>
+                        <p (click)="OpenData(10, InwardFormPopup, 'No of Cartons Not Sent To Storage')">
+                          No of Cartons Not Sent To Storage <span>{{ Carton_not_sent_to_storage }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <h3>Department Carton Status</h3>
+                      <div id="DepartmentChart" style="width: 100%; height: 300px;"></div>
+                    </div>
+                  </div>
+
+                  <!-- DumpStatusChart -->
+                  <div class="col-md-6">
+                    <div class="card">
+                      <h3>Warehouse Status</h3>
+                      <div id="WarehouseChart" style="width: 100%; height: 300px;"></div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-12 mt-3">
+                    <div class="card shadow-sm rounded border-0">
+                      <div class="card-body">
+                        <h3>Carton Storage Status</h3>
+                        <div id="MissingChart1" style="width: 100%; height: 500px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- RETRIEVAL SECTION -->
+
+              <div class="tab-pane fade" id="retrieval">
+                <div class="row d-flex align-items-center">
+                  <!-- Period Dropdown -->
+                  <div class="col-md-2">
+                    <div class="box_heanding">
+                      <select [(ngModel)]="selectedPeriod" placeholder="Select"
+                        (change)="FilterData($event.target.value)" class="form-control"
+                        style="box-shadow: none; font-size: 10px;">
+                        <!-- <option value="">Select a period</option> -->
+                        <option *ngFor="let option of periodOptions" [value]="option.value"
+                          style="border-radius: 20px;">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 d-flex align-items-center">
+                    <!-- Date Picker Form -->
+                    <form [formGroup]="ContentSearchForm" class="form-row d-flex align-items-center">
+                      <!-- From Date -->
+                      <div class="col-md-4">
+                        <input type="text" formControlName="fromdateretrieval" placeholder="From Date"
+                          class="form-control" bsDatepicker
+                          [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }" [maxDate]="currentDate"
+                          [readOnly]="!dateselection"
+                          style="box-shadow: none !important; box-shadow: none; font-size: 11px;" />
+                      </div>
+
+                      <!-- To Date -->
+                      <div class="col-md-4">
+                        <input type="text" formControlName="todateretrieval" placeholder="To Date" class="form-control"
+                          bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                          [minDate]="ContentSearchForm.get('fromdateretrieval')?.value" [maxDate]="currentDate"
+                          [readOnly]="!dateselection"
+                          style="box-shadow: none !important; box-shadow: none; box-shadow: inset; font-size: 11px;" />
+                      </div>
+
+                      <!-- Buttons -->
+                      <div class="col-md-3 d-flex">
+                        <button class="btn searchbtn" title="Search" [disabled]="!dateselection"
+                          (click)="searchDataRetrieval()">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn searchbtn" title="Refresh" (click)="refreshPage()">
+                          Refresh
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Retrieval Request Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(11, InwardFormPopup, 'No of Retrieval Request')">
+                          No of Retrieval Request <span>{{ Retrieval_Request }}</span>
+                        </p>
+                        <p (click)="OpenData(20, InwardFormPopup, 'No of Cartons in Retrieval Request')">
+                          No of Cartons in Retrieval Request <span>{{ Retrieval_Request_Carton }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">REQUEST APPROVAL STATUS</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(12, InwardFormPopup, 'No of RT Cartons Approved')">
+                          No of RT Cartons Approved <span>{{ Request_Approved_Cartons }}</span>
+                        </p>
+                        <p (click)="OpenData(13, InwardFormPopup, 'No of RT Cartons Rejected')">
+                          No of RT Cartons Rejected <span>{{ Request_Rejected_Cartons }}</span>
+                        </p>
+                        <p (click)="OpenData(14, InwardFormPopup, 'No of RT Cartons Pending')">
+                          No of RT Cartons Pending <span>{{ Request_Pending_Cartons }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Retrieval Dispatch Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(15, InwardFormPopup, 'No of RT Cartons Dispatched')">
+                          No of RT Cartons Dispatched
+                          <span>{{ Request_Dispatched_Cartons }}</span>
+                        </p>
+                        <p (click)="OpenData(16, InwardFormPopup, 'No of RT Cartons Dispatch Pending')">
+                          No of RT Cartons Dispatch Pending
+                          <span>{{ Request_Dispatched_Cartons_Pending }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Retrieval Acknowledge Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(17, InwardFormPopup, 'No of RT Cartons Acknowledged')">
+                          No of RT Cartons Acknowledged
+                          <span>{{ Request_Ack }}</span>
+                        </p>
+                        <p (click)="OpenData(18, InwardFormPopup, 'No of RT Cartons Rejected')">
+                          No of RT Cartons Rejected
+                          <span>{{ Request_Ack_Rejected }}</span>
+                        </p>
+                        <p (click)="OpenData(19, InwardFormPopup, 'No of RT Cartons Pending')">
+                          No of RT Cartons Pending
+                          <span>{{ Request_Ack_Pending }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <h3>Request Approval Status</h3>
+                      <div id="ocrStatusChart"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card">
+                      <h3>Retrieval Dispatch Status</h3>
+                      <div id="ocrStatusChart1"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mt-3">
+                    <div class="card">
+                      <h3>Retrieval Acknowledge Status</h3>
+                      <div id="RetrievalRequestAck"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- REFILING SECTION -->
+
+              <div class="tab-pane fade" id="refiling">
+                <!--  -->
+                <div class="row d-flex align-items-center">
+                  <!-- Period Dropdown -->
+                  <div class="col-md-2">
+                    <div class="box_heanding">
+                      <select [(ngModel)]="selectedPeriod" placeholder="Select"
+                        (change)="FilterData($event.target.value)" class="form-control"
+                        style="box-shadow: none; font-size: 10px;">
+                        <!-- <option value="">Select a period</option> -->
+                        <option *ngFor="let option of periodOptions" [value]="option.value"
+                          style="border-radius: 20px;">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 d-flex align-items-center">
+                    <!-- Date Picker Form -->
+                    <form [formGroup]="ContentSearchForm" class="form-row d-flex align-items-center">
+                      <!-- From Date -->
+                      <div class="col-md-4">
+                        <input type="text" formControlName="fromdate" placeholder="From Date" class="form-control"
+                          bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                          [maxDate]="currentDate" [readOnly]="!dateselection"
+                          style="box-shadow: none !important; box-shadow: none; font-size: 11px;" />
+                      </div>
+
+                      <!-- To Date -->
+                      <div class="col-md-4">
+                        <input type="text" formControlName="todate" placeholder="To Date" class="form-control"
+                          bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                          [minDate]="ContentSearchForm.get('fromdate')?.value" [maxDate]="currentDate"
+                          [readOnly]="!dateselection"
+                          style="box-shadow: none !important; box-shadow: none; box-shadow: inset; font-size: 11px;" />
+                      </div>
+
+                      <!-- Buttons -->
+                      <div class="col-md-3 d-flex">
+                        <button class="btn searchbtn" title="Search" [disabled]="!dateselection"
+                          (click)="searchData()">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn searchbtn" title="Refresh" (click)="refreshPage()">
+                          Refresh
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="box">
+                      <!-- Should contain both details of Carton Inventory and Inventory Approval -->
+                      <div class="heading">Send To Storage Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(21, InwardFormPopup, 'No of Return Request')">
+                          No of Return Request <span>{{ ReturnBatch }}</span>
+                        </p>
+                        <p (click)="OpenData(22, InwardFormPopup, 'No of Cartons in Return Request')">
+                          No of Cartons in Return Request <span>{{ ReturnCartonNo }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="box">
+                      <!-- Pickup schedule and Inventory Ack -->
+                      <div class="heading">Return Approval Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(23, InwardFormPopup, 'No of Cartons Approved')">
+                          No of Cartons Approved<span>{{ ReturnApproved }}</span>
+                        </p>
+                        <p (click)="OpenData(24, InwardFormPopup, 'No of Cartons Rejected')">
+                          No of Cartons Rejected <span>{{ ReturnRejected }}</span>
+                        </p>
+                        <p (click)="OpenData(25, InwardFormPopup, 'No of Cartons Pending')">
+                          No of Cartons Pending <span>{{ ReturnPending }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Return Acknowledge Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(26, InwardFormPopup, 'No of Cartons Received')">
+                          No of Cartons Received<span>{{ Return_Carton_Received }}</span>
+                        </p>
+                        <p (click)="OpenData(27, InwardFormPopup, 'No of Cartons Not Received')">
+                          No of Cartons Not Received <span>{{ Return_Carton_Not_Received }}</span>
+                        </p>
+                        <p (click)="OpenData(28, InwardFormPopup, 'No of Cartons Pending')">
+                          No of Cartons Pending <span>{{ Return_Carton_Pending }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="box">
+                      <div class="heading">Carton Storage Status</div>
+                      <div class="box_cantent">
+                        <p (click)="OpenData(29, InwardFormPopup, 'No of Cartons Sent To Storage')">
+                          No of Cartons Sent To Storage<span>{{ Return_Carton_sent_to_storage }}</span>
+                        </p>
+                        <p (click)="OpenData(30, InwardFormPopup, 'No of Cartons Not Sent To Storage')">
+                          No of Cartons Not Sent To Storage <span>{{ Return_Carton_not_sent_to_storage }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <h3>Return Approval Status</h3>
+                      <div id="ReturnApprovalStatus"></div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-6">
+                    <div class="card">
+                      <h3>Return Acknowledge Status</h3>
+                      <div id="ReturnAcknowledgeStatus"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mt-3">
+                    <div class="card">
+                      <h3>Carton Storage Status</h3>
+                      <div id="CartonStorageStatus"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #InwardFormPopup let-c="close" let-d="dismiss" let-modal>
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="pt-4 pl-5">
+            <div class="resetsave float-right">
+              <i class="fa fa-download" (click)="onDownload(this.tableH)" style="text-align: right; margin-right: 35px"></i>
+              <i class="fa fa-times fa-lg" (click)="Closepopup()" style="text-align: right; margin-right: 35px"></i>
+            </div>
+            <h1>{{ this.tableH }}</h1>
+          </div>
+
+          <div class="m-2 p-3">
+            <form>
+              <div>
+                <p-table [paginator]="true" [rows]="10" [value]="formattedData1" [autoLayout]="true"
+                  [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first1"
+                  (onPage)="paginate1($event)" [loading]="loading1"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                  <ng-template pTemplate="caption">
+                    <i class="pi pi-search" style="margin: 4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+                      (input)="searchTable1($event)" class="global-search search" />
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th *ngFor="let col of headerList1; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+                        {{ col.header }}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                    <tr>
+                      <td *ngFor="let col of headerList1">
+                        {{ car[col.field] }}
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

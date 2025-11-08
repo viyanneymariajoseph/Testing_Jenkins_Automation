@@ -1,0 +1,129 @@
+<div>
+    <div class="header pb-6">
+        <div class=" container-fluid">
+            <div class=" header-body">
+                <div class=" row align-items-center py-4">
+                    <div class=" col-lg-6 col-7">
+                        <!-- <h6 class=" h2 text-white d-inline-block mb-0">File Inventory</h6> -->
+                        <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                            <ol class=" breadcrumb">
+                                <li class=" breadcrumb-item">
+                                    <a href="javascript:void(0)"> <i class=" fas fa-home"
+                                            routerLink="/search/quick-search"> </i> </a>
+                                </li>
+                                <li class=" breadcrumb-item">
+                                    <a href="javascript:void(0)"> Process </a>
+                                </li>
+                                <li aria-current="page" class=" breadcrumb-item active">
+                                    File Inventory
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" container-fluid mt--6">
+        <div class=" row">
+            <div class=" col">
+                <div class=" card">
+                    <div class="dataTables_wrapper checklist-table w-100">
+                        <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+                            (onPage)="paginate($event)" [loading]="loading"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                            <ng-template pTemplate="caption">
+                                
+                                <input type="text" pInputText size="50" placeholder="Search records"
+                                    (input)="searchTable($event)" class="global-search search">
+
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>
+                                        SR NO
+                                    </th>
+                                    <th style="width: 10%;" style="white-space: nowrap;">
+                                        ACTION
+                                    </th>
+                                    <th *ngFor="let col of headerList; let i = index;"
+                                        [ngStyle]="i==0 && {'width': '5%'}" style="white-space: nowrap;">
+                                        {{col.header}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                                <tr>
+                                    <td>
+                                        {{car.srNo}}
+                                    </td>
+                                    <td style="white-space: nowrap;">
+                                        <button [hidden]="!car.pickedup_by" type="button" style="padding:0 0 5px 4px"
+                                            class="btn text-primary h3" (click)="Editinward(car)">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button [hidden]="car.pickedup_by" type="button" style="padding:0 0 5px 4px"
+                                            class="btn text-primary h3" (click)="PickedupDate(InwardFormPopup,car)">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </td>
+                                    <td *ngFor="let col of headerList" style="white-space: nowrap;">
+                                        {{car[col.field]}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #InwardFormPopup let-c="close" let-d="dismiss" let-modal>
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="pt-2 pl-3">
+                    <h2 style="border-bottom: 1px solid black;">PICKED UP DATE</h2>
+                </div>
+                <div class="m-2 p-3">
+                    <form [formGroup]="pickupForm" (ngSubmit)="Pickedup()">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="request_id">Request Number</label>
+                                    <input formControlName="request_id" type="text" class="form-control"
+                                        placeholder="Request Number" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickedup_date">Select Picked Up Date</label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                </div>
+                                <input type="text" formControlName="pickedup_date" placeholder="Datepicker"
+                                    class="form-control" bsDatepicker [bsValue]="bsValue"
+                                    [bsConfig]="{isAnimated: true,containerClass: 'theme-red',minDate: mindate , maxDate: currentDate}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="collateral_file_count">Pickedup Remark</label>
+                            <textarea name="" id="" cols="30" rows="3" class="form-control"
+                                formControlName="pickedup_remark"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success" [disabled]="pickupForm.invalid">Save</button>
+                            <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
+                            <button type="button" class="btn btn-primary" (click)="OnReset()">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

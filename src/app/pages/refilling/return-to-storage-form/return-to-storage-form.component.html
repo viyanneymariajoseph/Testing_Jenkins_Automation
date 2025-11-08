@@ -1,0 +1,311 @@
+<br />
+<br /><br /><br /><br />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="retrieval_add_form">
+          <form class="needs-validation p-4" [formGroup]="AddFileInwardForm">
+            <div class="form-row">
+              <div class="col" style="flex: 2.5">
+                <label for="reuqestId">Return Request ID</label>
+                <div class="">
+                  <input
+                    name="appl"
+                    type="text"
+                    readonly
+                    placeholder="Return Request ID"
+                    type="text"
+                    class="form-control"
+                    formControlName="reuqestId"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['reuqestId'].invalid &&
+                      (FormControls['reuqestId'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <!-- <div *ngIf="FormControls['reuqestId'].hasError('required')">
+                      * Return Request ID is required.
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col" style="flex: 2.5">
+                <label for="department">Department Name</label>
+                <div class="">
+                  <select
+                    id="department"
+                    formControlName="department"
+                    class="form-select"
+                    (change)="onDepartmentChange($event)"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['department'].invalid &&
+                        (FormControls['department'].touched || submitted)
+                    }"
+                  >
+                    <option value="" disabled selected>--Select--</option>
+                    <option
+                      *ngFor="let i of departmentDropdown"
+                      value="{{ i.value }}"
+                    >
+                      {{ i.label }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      FormControls['department'].invalid &&
+                      (FormControls['department'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      *ngIf="FormControls['department'].hasError('required')"
+                    >
+                      *Required.
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+                <div class="col" style="flex: 2.5">
+                <label for="cartonNo">Carton No.</label>
+                <div class="">
+                  <input
+                    name="appl"
+                    type="text"
+                    placeholder="Enter Carton No."
+                    formControlName="cartonNo"
+                    (blur)="getDetailsByCarton(FormControls['cartonNo'].value)"
+                    type="text"
+                    class="form-control form-control-md"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['cartonNo'].invalid &&
+                        (FormControls['cartonNo'].touched || submitted)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['cartonNo'].invalid &&
+                      (FormControls['cartonNo'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="FormControls['cartonNo'].hasError('required')">
+                      *Carton Number is Required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col" style="flex: 2.5">
+                <label for="department">Department Name</label>
+                <div class="">
+                  <input
+                    name="department"
+                    type="text"
+                    readonly
+                    placeholder="Department Name"
+                    class="form-control"
+                    formControlName="department"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['department'].invalid &&
+                        (FormControls['department'].touched || submitted)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['department'].invalid &&
+                      (FormControls['department'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <!-- <div
+                      *ngIf="FormControls['department'].hasError('required')"
+                    >
+                      * Department Name is required.
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+
+            
+              <div class="col-md-4" style="flex: 2.5">
+                <label for="documentType">Document Type</label>
+                <div class="">
+                  <input
+                    type="text"
+                    readonly
+                    placeholder="Document Type"
+                    class="form-control"
+                    formControlName="documentType"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['documentType'].invalid &&
+                        (FormControls['documentType'].touched || submitted)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['documentType'].invalid &&
+                      (FormControls['documentType'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <!-- <div
+                      *ngIf="FormControls['documentType'].hasError('required')"
+                    >
+                      * Document Type is Required.
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row mt-4">
+           <div class="col-md-4" style="flex: 2.5">
+  <div class="form-group">
+    <label for="detailDocumentType">Detail Document Type</label>
+    <input
+  type="text"
+  readonly
+  placeholder="Detail Document Type"
+  class="form-control"
+  formControlName="detailDocumentType"
+  [ngClass]="{
+    'is-invalid':
+      FormControls['detailDocumentType'].invalid &&
+      (FormControls['detailDocumentType'].touched || submitted)
+  }"
+/>
+
+    <div
+      *ngIf="
+        FormControls['detailDocumentType'].invalid &&
+        (FormControls['detailDocumentType'].touched || submitted)
+      "
+      class="invalid-feedback"
+    >
+      <!-- <div
+        *ngIf="FormControls['detailDocumentType'].hasError('required')"
+      >
+        *Detail Document Type Required.
+      </div> -->
+    </div>
+  </div>
+</div>
+
+              <div class="col-md-4" style="flex: 2.5">
+                <label for="WarehouseName">Warehouse Name</label>
+                <div class="">
+                  <input    name="WarehouseName"     type="text"  readonly   placeholder="Warehouse Name"
+                    type="text"  class="form-control"  formControlName="WarehouseName" />                
+                </div>
+              </div>
+
+
+
+              <div class="col-md-4" style="flex: 2.5">
+                <label for="detailLocation">Detail Location</label>
+                <div class="">
+                  <input name="detailLocation" type="text" readonly  placeholder="Detail Location" type="text"
+                    class="form-control" formControlName="detailLocation" />                  
+                </div>
+              </div>
+              <div class="col-md-4" style="flex: 2.5"></div>
+            </div>
+          <div class="float-right pb-3">
+  <a 
+    class="btn btn-outline-success" 
+    (click)="SaveData()">
+    Save
+  </a>
+
+  <a 
+    class="btn btn-outline-primary" 
+    (click)="onSubmit()">
+    Back
+  </a>
+
+  <a 
+    class="btn btn-outline-info" 
+    (click)="OnReset()">
+    Reset
+  </a>
+
+  <a 
+    class="btn btn-outline-danger" 
+    (click)="CloseRequest()">
+    Close Request
+  </a>
+</div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--3">
+<p-table
+  [paginator]="true"
+  [rows]="10"
+  [value]="formattedData"
+  [autoLayout]="true"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50, 100]"
+  [(first)]="first"
+  (onPage)="paginate($event)"
+  [loading]="loading"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+>
+  <ng-template pTemplate="caption">
+    <input
+      type="text"
+      pInputText
+      size="50"
+      placeholder="Search records"
+      (input)="searchTable($event)"
+      class="global-search search"
+    />
+  </ng-template>
+<ng-template pTemplate="header">
+  <tr>
+    <!-- ACTION column first -->
+    <th style="width: 5%; white-space: nowrap">ACTION</th>
+ 
+    <!-- Dynamic columns -->
+    <th
+      *ngFor="let col of headerList; let i = index"
+      [ngStyle]="i == 0 ? { width: '5%' } : {}"
+    >
+      {{ col.header }}
+    </th>
+  </tr>
+</ng-template>
+ 
+<ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+  <tr>
+    <!-- ACTION column first -->
+    <td style="white-space: nowrap">
+      <a
+        type="button"
+        style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+        class="btn btn-icon btn-icon-only"
+        (click)="DeleteRecord(car)"
+      >
+        <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+      </a>
+    </td>
+ 
+    <!-- Dynamic columns -->
+    <td *ngFor="let col of headerList">
+      {{ car[col.field] }}
+    </td>
+  </tr>
+</ng-template>
+ 
+</p-table>
+</div>

@@ -1,0 +1,149 @@
+// #navbar-main {
+//     position: fixed;
+//     width: 100%;
+//     right: 0;
+//     height: 64px;
+//     z-index: 12;
+//     padding: 3rem 0;
+// }
+.avatar {
+    background-color: transparent !important;
+}
+
+#navbar-main {
+    position: fixed;
+    width: 100%;
+    right: 0;
+    height: 85px;
+    z-index: 12;
+    padding: 2rem 0;
+    // background: #FFF6F6 !important;
+    background: #0A424A !important; //vmj 
+    // border: 2px solid #FFCC00 !important;
+    background: linear-gradient(to bottom, #C9F5D9, #C9F5D9); //vmj
+    border-bottom: 1px solid #9a9a9a !important;
+    box-shadow: 0px 0px 10px 0px #4f4f4f
+}
+
+.dropdown-item:hover {
+    background-color: #88b0c3;
+    color: #000;
+}
+
+.navbar {
+    padding-right: 0 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    /* color: rgba(255, 255, 255, 0.95); */
+    color: white !important;
+}
+
+
+// --------------------------------------------------------------------------------------------------------------------------------
+.notification-icon {
+    cursor: pointer;
+    position: relative;
+    // margin-bottom: 4.8rem;
+    margin-right: 0.2rem;
+    // border: 1px solid #f9c23c;    
+    // padding: 0.24rem;   
+    font-size: 22px; 
+    border-radius: 3rem;
+    user-select: none;
+}
+
+.badge {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 14px;
+    position: absolute;
+    top: -2px;
+    right: -4px;
+}
+
+/* Popup container */
+.notification-popup {
+    // position: absolute;
+    // top: 4rem; /* Position the popup below the bell icon */
+    // right: 1rem; /* Align with the right of the bell */
+    width: 25rem;
+    // background-color: white;
+    // border: 1px solid #ddd;
+    // border-radius: 8px;
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-right: 10px;
+    padding-left: 10px;
+    max-height: 355px;
+    // overflow-y: auto;
+    // z-index: 1000; /* Ensure it is above other content */
+  }
+
+  .notification-Panel{
+    max-height: 345px; 
+    overflow-y: auto; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+  }
+  
+  .notification-popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .notification-popup li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #666;
+  }
+  
+  .notification-popup li:last-child {
+    border-bottom: none;
+  }
+  
+  .notification-popup .unread {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  /* Style for "Mark as Read" button */
+  .notification-popup button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  .notification-popup button:hover {
+    background-color: #0056b3;
+  }
+  
+  .notification-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .notification-meta {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+  }
+  
+  .time {
+    // font-style: italic;
+    font-weight: bold;
+  }
+  
+  .username {
+    font-weight: bold;
+  }
+  

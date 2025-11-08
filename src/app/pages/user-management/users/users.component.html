@@ -1,0 +1,379 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                Users
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <!-- <div class="col-lg-6 col-5 text-right">
+          <a class="btn btn-sm btn-neutral" (click)="addUser(userFormPopup)">
+             <i class="fa fa-plus"></i>
+            Create New User</a>
+          
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="dataTables_wrapper checklist-table w-100">
+          <p-table #dt [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              <div class="d-flex justify-content-between align-items-center">
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search search" />
+
+                <div class="col-lg-6 col-5 text-right">
+                  <a class="btn btn-sm btn-neutral btn-close-batch" (click)="addUser(userFormPopup)">
+                    <i class="fa fa-plus"></i>
+                    Create New User</a>
+                  <a class="btn btn-sm btn-neutral btn-close-batch" (click)="downloadCSV()">
+                    <i class="fa fa-download"></i>
+                    Download</a>
+                </div>
+              </div>
+            </ng-template>
+            <!-- <ng-template pTemplate="header">
+              <tr>
+                <th
+                  *ngFor="let col of headerList; let i = index"
+                  [ngStyle]="i == 0 && { width: '5%' }"
+                >
+                  {{ col.header }}
+                  <p-sortIcon *ngIf="i == 10" [field]="col.field"></p-sortIcon>
+                </th>
+                <th style="width: 10%">ACTION</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of headerList">
+                  {{ car[col.field] }}
+                </td>
+
+                <td>
+                  <button
+                    type="button"
+                     style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                    class="btn btn-icon btn-icon-only"
+
+                    [ngClass]="
+                      car.isactive === 'ACTIVE'
+                        ? 'btn-danger lock-btn'
+                        : 'btn-success unlock-btn'
+                    "
+                    (click)="toggleUserStatus(car)"
+                    [title]="
+                      car.isactive === 'ACTIVE'
+                        ? 'Make In-Active User'
+                        : 'Make to Active User'
+                    "
+                  >
+                    <span class="btn-inner--icon">
+                      <i
+                        [ngClass]="
+                          car.isactive === 'ACTIVE'
+                            ? 'fa fa-lock'
+                            : 'fa fa-lock-open'
+                        "
+                      ></i>
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"                    class="btn btn-icon btn-icon-only"
+                    (click)="editEmployee(userFormPopup, car)"
+                    title="Edit User Details"
+                  >
+                    <span class="btn-inner--icon">
+                      <i class="fa fa-pen"></i>
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    style="padding: 0 0 5px 1px"
+                    class="btn btn-icon btn-icon-only"
+                    (click)="deleteEmployee(car)"
+                  >
+                    <span class="btn-inner--icon"
+                      ><img src="assets/img/icons/delete.svg"
+                    /></span>
+                  </button>
+                </td>
+                <td></td>
+              </tr>
+            </ng-template> -->
+
+            <ng-template pTemplate="header">
+              <tr>
+                <!-- ACTION column first -->
+                <th style="width: 10%">ACTION</th>
+
+                <!-- Data columns -->
+                <th *ngFor="let col of headerList; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+                  {{ col.header }}
+                  <p-sortIcon *ngIf="i == 10" [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <!-- ACTION buttons first -->
+                <td>
+                  <button type="button" style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                    class="btn btn-icon btn-icon-only" [ngClass]="
+          car.isactive === 'ACTIVE'
+            ? 'btn-danger lock-btn'
+            : 'btn-success unlock-btn'
+        " (click)="toggleUserStatus(car)" [title]="
+          car.isactive === 'ACTIVE'
+            ? 'Make In-Active User'
+            : 'Make to Active User'
+        ">
+                    <span class="btn-inner--icon">
+                      <i [ngClass]="
+              car.isactive === 'ACTIVE'
+                ? 'fa fa-lock'
+                : 'fa fa-lock-open'
+            "></i>
+                    </span>
+                  </button>
+
+                  <button type="button" style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                    class="btn btn-icon btn-icon-only" (click)="editEmployee(userFormPopup, car)"
+                    title="Edit User Details">
+                    <span class="btn-inner--icon">
+                      <i class="fa fa-pen"></i>
+                    </span>
+                  </button>
+
+                  <button type="button" style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                    class="btn btn-icon btn-icon-only btn-danger delete-btn" (click)="deleteEmployee(car)"
+                    title="Delete User">
+                    <span class="btn-inner--icon">
+                      <i class="fa fa-trash"></i>
+                    </span>
+                  </button>
+                </td>
+
+                <!-- Data columns -->
+                <!-- <td *ngFor="let col of headerList">
+      {{ car[col.field] }}
+    </td> -->
+                <td *ngFor="let col of headerList">
+                  <ng-container [ngSwitch]="col.field">
+
+                    <!-- When field is 'isactive', show colored badge -->
+                    <span *ngSwitchCase="'isactive'" class="status-pill" [ngClass]="{
+      'badge-success': car[col.field] === 'ACTIVE',
+      'badge-secondary': car[col.field] === 'DELETED',
+      'badge-danger': car[col.field] !== 'ACTIVE' && car[col.field] !== 'DELETED'
+    }">
+                      {{ car[col.field] }}
+                    </span>
+
+                    <!-- Default: render normal text -->
+                    <span *ngSwitchDefault>
+                      {{ car[col.field] }}
+                    </span>
+
+                  </ng-container>
+                </td>
+
+              </tr>
+            </ng-template>
+
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #userFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content user-modal-lg">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card-header">
+          <h3 class="mb-0">{{ User }}</h3>
+        </div>
+
+        <div class="card-body">
+          <form class="needs-validation" novalidate="" [formGroup]="AddUserForm" autocomplete="off"
+            (ngSubmit)="onSubmit()">
+
+            <!-- Name -->
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="name"> Name </label>
+                <input class="form-control" name="name" id="name" formControlName="name" placeholder="Name" type="text"
+                  pattern="^[A-Za-z ]+$" />
+
+                <div class="errorMsg-feedback" *ngIf="f.name.touched && f.name.errors?.required">
+                  *Required
+                </div>
+                <div class="errorMsg-feedback" *ngIf="f.name.touched && f.name.errors?.pattern">
+                  Name must contain only alphabets and spaces
+                </div>
+              </div>
+            </div>
+
+            <!-- User ID & Email -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="userid"> User Id </label>
+                <input name="userid" id="userid" formControlName="userid" placeholder="User Id" type="text"
+                  autocomplete="off" class="form-control"
+                  [ngClass]="{'is-invalid': f.userid.invalid && (f.userid.touched || submitted)}"
+                  [readonly]="AddUserForm.get('id').value" />
+                <div *ngIf="f.userid.invalid && (f.userid.touched || submitted)" class="invalid-feedback">
+                  <div *ngIf="f.userid.hasError('required')">
+                    * Required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="email"> Email </label>
+                <input id="email" formControlName="email" placeholder="Email" type="email" class="form-control" />
+
+                <div class="errorMsg-feedback" *ngIf="f.email.touched && f.email.errors?.required">
+                  *Required
+                </div>
+                <div class="errorMsg-feedback" *ngIf="f.email.touched && f.email.errors?.pattern">
+                  Please Enter Valid Email Id
+                </div>
+              </div>
+            </div>
+
+            <!-- Password & Confirm Password -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3 position-relative">
+                <label class="form-control-label" for="loginPass">Password</label>
+                <div class="position-relative">
+                  <input name="pwd" id="loginPass" formControlName="pwd" [type]="showPassword ? 'text' : 'password'"
+                    placeholder="Password" autocomplete="new-password" class="form-control pr-5" />
+                  <i class="fa" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                    (click)="showPassword = !showPassword"
+                    style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+                </div>
+
+                <div class="errorMsg-feedback" *ngIf="f.pwd.touched && f.pwd.errors?.required">
+                  *Required
+                </div>
+                <div class="errorMsg-feedback" *ngIf="f.pwd.touched && f.pwd.errors">
+                  Password should meet the following criteria:
+                  <ul>
+                    <li>Contain at least 12 characters</li>
+                    <li>Contain at least 1 special character</li>
+                    <li>Contain at least 1 number</li>
+                    <li>Contain at least 1 lowercase character (a-z)</li>
+                    <li>Contain at least 1 uppercase character (A-Z)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3 position-relative">
+                <label class="form-control-label" for="confirmPass">Confirm Password</label>
+                <div class="position-relative">
+                  <input name="confirmPass" autocomplete="new-password" id="confirmPass" formControlName="confirmPass"
+                    [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm Password"
+                    class="form-control pr-5" />
+                  <i class="fa" [ngClass]="showConfirmPassword ? 'fa-eye' : 'fa-eye-slash'"
+                    (click)="showConfirmPassword = !showConfirmPassword"
+                    style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+                </div>
+
+                <div class="errorMsg-feedback" *ngIf="f.confirmPass.touched && f.confirmPass.errors?.required">
+                  *Required
+                </div>
+                <div class="errorMsg-feedback"
+                  *ngIf="f.confirmPass.touched && f.confirmPass.errors?.confirmedValidator">
+                  Password and Confirm Password must match.
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile, Role, User Type -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="mobile"> Mobile </label>
+                <input name="mobile" id="mobile" maxlength="10" formControlName="mobile" placeholder="Mobile"
+                  type="number" class="form-control" />
+
+                <div class="errorMsg-feedback" *ngIf="f.mobile.touched && f.mobile.errors?.required">
+                  *Required
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="sysRoleID"> Role </label>
+                <select class="form-control form-select" formControlName="sysRoleID" data-toggle="select"
+                  id="sysRoleID">
+                  <option value="0">Select Role Name</option>
+                  <option *ngFor="let _Role of _RoleList" [value]="_Role.id">
+                    {{ _Role.roleName }}
+                  </option>
+                </select>
+
+                <div class="errorMsg-feedback" *ngIf="f.sysRoleID.touched && f.sysRoleID.errors?.required">
+                  *Required
+                </div>
+              </div>
+
+
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="UserType">
+                    User Type
+                  </label>
+                  <select name="UserType" class="form-control" formControlName="UserType">
+                    <option value="0">Select</option>
+                    <option value="1">Requestor</option>
+                    <option value="2">Requestor Checker</option>
+                    <option value="3">WareHouse Team</option>
+                  </select>
+
+                  <div class="errorMsg-feedback" *ngIf="f.UserType.touched && f.UserType.errors?.required">
+                    *Required
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <button class="btn btn-outline-success" type="submit"
+              [disabled]="AddUserForm.invalid && !AddUserForm.get('id').value">
+              Submit
+            </button>
+            <button type="button" class="btn btn-outline-danger" (click)="OnClose()">
+              Close
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

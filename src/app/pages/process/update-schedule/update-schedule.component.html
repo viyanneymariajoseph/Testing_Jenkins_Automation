@@ -1,0 +1,223 @@
+<div class="DataEntryMainContainer">
+  <div class="header pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <!-- <h6 class="h2 text-white d-inline-block mb-0">Update Schedule</h6> -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> Process </a>
+                </li>
+
+                <li aria-current="page" class="breadcrumb-item active">
+                  Update Schedule
+                </li>
+              </ol>
+            </nav>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h3 class=" mb-0"> Update Schedule</h3>
+              <p class=" text-sm mb-0"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dataTables_wrapper py-4 checklist-table">
+
+
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              
+              <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+                (input)="searchTable($event)" class="global-search search">
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}"
+                  style="white-space: nowrap;">
+                  {{col.header}}
+                </th>
+                <th style="width: 10%;">
+                  ACTION
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of headerList" style="white-space: nowrap;">
+                  {{car[col.field]}}
+                </td>
+                <td style="white-space: nowrap;">
+
+                  <button type="button" [disabled]="car.request_status?.toLowerCase() === 'closed'" style="padding:0 0 5px 4px; border: none;" class="btn text-primary h3"
+                    (click)="Editinward(InwardFormPopup,car)">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #InwardFormPopup let-c="close" let-d="dismiss" let-modal>
+
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="px-4 pt-3">
+        <h2>Pickup Request Scheduler</h2>
+        <hr class="w-100 bg-dark">
+      </div>
+
+      <div class="m-2 p-3">
+        <form [formGroup]="pickupForm" (ngSubmit)="SubmitAck()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Request ID</label>
+                <input type="text" class="form-control" readonly formControlName="request_id" />
+
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group m-0">
+
+                <label for="service_type">Schedule Date</label>
+
+                <input type="text" class="form-control" [hidden]="!rescheduleBoolean" placeholder="Select date"
+                  bsDatepicker formControlName="schedule_date"
+                  [bsConfig]="{ minDate: minDate, dateInputFormat: 'DD-MM-YYYY' }"
+                  [ngClass]="{'is-invalid': FormControls['schedule_date'].invalid && (FormControls['schedule_date'].touched || submitted)}">
+                <input type="text" class="form-control" [attr.readonly]="!rescheduleBoolean"
+                  [hidden]="rescheduleBoolean" placeholder="Select date" formControlName="form_schedule_date" />
+                <div
+                  *ngIf="FormControls['schedule_date'].invalid && (FormControls['schedule_date'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControls['schedule_date'].hasError('required')">* Schedule Date is required.</div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" [hidden]="rescheduleBoolean">
+            <div class="col-md-12">
+              <div class="form-group">
+
+                <label for="service_type">Re-Schedule Date</label>
+                <input type="text" class="form-control" placeholder="Select date" bsDatepicker
+                  formControlName="reschedule_date" [bsConfig]="{ minDate: minDate, dateInputFormat: 'DD-MM-YYYY' }"
+                  [ngClass]="{'is-invalid': FormControls['reschedule_date'].invalid && (FormControls['reschedule_date'].touched || submitted)}">
+                <div
+                  *ngIf="FormControls['reschedule_date'].invalid && (FormControls['reschedule_date'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControls['reschedule_date'].hasError('required')">* Schedule Date is required.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" [hidden]="rescheduleBoolean">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="service_type">Reschedule Reason</label>
+                <textarea type="text" class="form-control" formControlName="reschedule_reason"
+                  placeholder="Reschedule Reason"
+                  [ngClass]="{'is-invalid': FormControls['reschedule_reason'].invalid && (FormControls['reschedule_reason'].touched || submitted)}"></textarea>
+                <div
+                  *ngIf="FormControls['reschedule_reason'].invalid && (FormControls['reschedule_reason'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControls['reschedule_reason'].hasError('required')">* Reschedule Reason is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="service_type">Escort Name</label>
+                <input type="text" class="form-control" [value]="AckData?.escort_name" formControlName="escort_name"
+                  placeholder="Escort Name" />
+
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Vehicle Number</label>
+                <input type="text" class="form-control" [value]="AckData?.request_by" formControlName="vehicle_number"
+                  placeholder="Vehicle Number" />
+
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Escort Mobile Number</label>
+                <input type="text" class="form-control" [value]="AckData?.request_date" formControlName="escort_number"
+                  placeholder="Escort Number"
+                  [ngClass]="{'is-invalid': FormControls['escort_number'].invalid && (FormControls['escort_number'].touched || submitted)}">
+                <div
+                  *ngIf="FormControls['escort_number'].invalid && (FormControls['escort_number'].touched || submitted)"
+                  class="invalid-feedback">
+                  <div *ngIf="FormControls['escort_number'].hasError('required')">* Escort Mobile Number is required.
+                  </div>
+                  <div
+                    *ngIf="FormControls['escort_number'].hasError('maxlength') || FormControls['escort_number'].hasError('minlength')">
+                    * Maximum length is 10 characters.</div>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="form-group">
+              <label for="service_type">PickUp Address</label>
+              <textarea name="" id="" cols="30" rows="3" class="form-control" [value]="AckData?.address"
+                placeholder="PickUp Address" formControlName="pickup_address" readonly></textarea>
+
+
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-danger" (click)="close()">Close</button>
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,235 @@
+
+  <div class="header pb-6">
+  <div class="container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                Return Approval
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- <div class="card-header p-0 px-4 pt-2">
+            <div
+              class="p-0 w-100 d-flex justify-content-between align-items-center"
+            >
+              <div class="w-100">
+                <h3 class="mb-0">Return Approval</h3>
+                <p class="text-sm mb-3"></p>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="dataTables_wrapper py-4 checklist-table">
+            <p-table
+              [paginator]="true"
+              [rows]="10"
+              [value]="formattedData"
+              [autoLayout]="true"
+              [showCurrentPageReport]="true"
+              [rowsPerPageOptions]="[10, 25, 50, 100]"
+              [(first)]="first"
+              (onPage)="paginate($event)"
+              [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            >
+              <ng-template pTemplate="caption">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search records"
+                  (input)="searchTable($event)"
+                  class="global-search search"
+                />
+              </ng-template>
+                      <ng-template pTemplate="header">
+  <tr>
+    <!-- ACTION column first -->
+    <th style="width: 5%; white-space: nowrap">ACTION</th>
+ 
+    <!-- SR NO column -->
+    <th style="width: 5%; white-space: nowrap">SR NO</th>
+ 
+    <!-- Dynamic header columns -->
+    <th
+      *ngFor="let col of headerList; let i = index"
+      [ngStyle]="i == 0 && { width: '5%' }"
+      style="white-space: nowrap"
+    >
+      {{ col.header }}
+    </th>
+  </tr>
+</ng-template>
+ 
+<ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+  <tr>
+    <!-- ACTION icon first -->
+      <td style="white-space: nowrap">
+      <a
+        type="button"
+        style="padding:0 3px 5px 4px; border-radius: 50%; background-color: white;"
+         class="btn btn-icon btn-icon-only"
+        (click)="View(InventoryPopup, car)"  tooltip="Request Approve"
+      >
+        <span class="btn-inner--icon" ><i class="fa fa-plus" ></i></span>
+      
+      </a>
+    </td>
+ 
+    <!-- SR NO -->
+    <td>
+      {{ car["srNo"] }}
+    </td>
+ 
+    <!-- Dynamic values -->
+   <td *ngFor="let col of headerList" style="white-space: nowrap">
+                <ng-container *ngIf="col.field === 'status'; else normalCell">
+                  <span class="status-badge" [ngClass]="getStatusClass(car[col.field])">
+                    {{ car[col.field] }}
+                  </span>
+                </ng-container>
+                <ng-template #normalCell>
+                  {{ car[col.field] }}
+                </ng-template>
+              </td>
+  </tr>
+</ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<ng-template #InventoryPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <!-- <div class="card"> -->
+   <div class="pt-2 pl-3">
+        <div class="resetsave float-right">
+          <i class="fa fa-times fa-lg" (click)="hidepopup()" style="text-align: right; margin-right: 35px"></i>
+        </div>
+       <h2 style="border-bottom: 1px solid black">Request Approval</h2>
+      </div>
+
+         
+         
+        <!-- </div> -->
+        <div class="card-body">
+          <!-- <div class="dataTables_wrapper py-4 checklist-table"> -->
+            <p-table
+              [paginator]="true"
+              [rows]="10"
+              [value]="formattedData1"
+              [autoLayout]="true"
+              [showCurrentPageReport]="true"
+              [rowsPerPageOptions]="[10, 25, 50, 100]"
+              [(first)]="first1"
+              (onPage)="paginate1($event)"
+              [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            >
+              <ng-template pTemplate="caption">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search records"
+                  (input)="searchTable1($event)"
+                  class="global-search search"
+                />
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 10%" style="white-space: nowrap">SR NO</th>
+                  <th
+                    *ngFor="let col of headerList1; let i = index"
+                    [ngStyle]="i == 0 && { width: '5%' }"
+                    style="white-space: nowrap"
+                  >
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                  <td>
+                    {{ car["srNo"] }}
+                  </td>
+                       <td *ngFor="let col of headerList1" style="white-space: nowrap">
+                <ng-container *ngIf="col.field === 'status'; else normalCell">
+                  <span class="status-badge" [ngClass]="getStatusClass1(car[col.field])">
+                    {{ car[col.field] }}
+                  </span>
+                </ng-container>
+                <ng-template #normalCell>
+                  {{ car[col.field] }}
+                </ng-template>
+              </td>
+ 
+                </tr>
+              </ng-template>
+            </p-table>
+          <!-- </div> -->
+          <!-- <div class="d-flex justify-content-end py-2">
+            <button
+              type="button"
+              style="padding: 0 0 5px 4px"
+              class="btn btn-sm text-success"
+              style="background-color: white; border: 1px solid black"
+              (click)="onUpdatestatus('Approval', null, modal)"
+            >
+              Approve &nbsp;<i class="fa fa-check"></i>
+            </button>
+
+            <button
+              type="button"
+              style="padding: 0 0 5px 4px"
+              class="btn btn-sm text-danger"
+              style="background-color: white; border: 1px solid black"
+              (click)="onUpdatestatus('Reject', null, modal)"
+            >
+              Reject &nbsp;<i class="fa fa-ban"></i>
+            </button>
+          </div> -->
+          <div class="d-flex justify-content-end py-2">
+
+
+            <button type="button" class="btn btn-outline-success" (click)="onUpdatestatus('Approval', null)">
+              Approve &nbsp;
+            </button>
+
+
+
+            <button type="button" class="btn btn-outline-danger"  (click)="onUpdatestatus('Reject', null)"
+             >
+              Reject &nbsp;
+            </button>
+
+          </div>
+        </div>
+  
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-template>

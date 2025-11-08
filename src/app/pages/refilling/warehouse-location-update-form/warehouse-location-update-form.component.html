@@ -1,0 +1,201 @@
+<br />
+<br /><br /><br /><br />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="retrieval_add_form">
+          <form class="needs-validation p-4" [formGroup]="AddFileInwardForm">
+            <div class="form-row">
+              <div class="col" style="flex: 2.5">
+                <label for="requestId">Request ID</label>
+                <div class="">
+                  <input
+                    name="appl"
+                    type="text"
+                    readonly
+                    placeholder="Return Request ID"
+                    type="text"
+                    class="form-control"
+                    formControlName="requestId"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['requestId'].invalid &&
+                      (FormControls['requestId'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="FormControls['requestId'].hasError('required')">
+                      * Branch Code is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col" style="flex: 2.5">
+                <label for="requestId">Carton No.</label>
+                <div class="">
+                  <input
+                    name="appl"
+                    type="text"
+                    placeholder="Enter Carton No."
+                    formControlName="cartonNo"
+                    type="text"
+                    class="form-control form-control-md"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['cartonNo'].invalid &&
+                        (FormControls['cartonNo'].touched || submitted)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['cartonNo'].invalid &&
+                      (FormControls['cartonNo'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="FormControls['cartonNo'].hasError('required')">
+                      * CartonNo is Required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col" style="flex: 2.5">
+                <label for="requestId">Warehouse</label>
+                <div class="">
+                  <select
+                    formControlName="warehouseId"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['warehouseId'].invalid &&
+                        (FormControls['warehouseId'].touched || submitted)
+                    }"
+                  >
+                    <option value="" disabled selected>--Select--</option>
+                    <option
+                      *ngFor="let i of warehouseDropdown"
+                      value="{{ i.value }}"
+                    >
+                      {{ i.label }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      FormControls['warehouseId'].invalid &&
+                      (FormControls['warehouseId'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div
+                      *ngIf="FormControls['warehouseId'].hasError('required')"
+                    >
+                      * Warehouse is Required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row mt-4">
+              <div class="col-md-4" style="flex: 2.5">
+                <label for="requestId">Detail Location</label>
+                <div class="">
+                  <input
+                    name="appl"
+                    type="text"
+                    formControlName="location"
+                    placeholder="Enter Detail Location"
+                    class="form-control form-control-md"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['location'].invalid &&
+                        (FormControls['location'].touched || submitted)
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      FormControls['location'].invalid &&
+                      (FormControls['location'].touched || submitted)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="FormControls['location'].hasError('required')">
+                      * location is Required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="float-right pb-3">
+              <a class="btn btn-outline-success" (click)="SaveData()"> Save </a>
+
+              <a class="btn btn-outline-primary" (click)="onSubmit()"> Back </a>
+
+              <a class="btn btn-outline-info" (click)="OnReset()"> Reset </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-table
+  [paginator]="true"
+  [rows]="10"
+  [value]="formattedData"
+  [autoLayout]="true"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50, 100]"
+  [(first)]="first"
+  (onPage)="paginate($event)"
+  [loading]="loading"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+>
+  <ng-template pTemplate="caption">
+    <input
+      type="text"
+      pInputText
+      size="50"
+      placeholder="Search records"
+      (input)="searchTable($event)"
+      class="global-search search"
+    />
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        *ngFor="let col of headerList; let i = index"
+        [ngStyle]="i == 0 && { width: '5%' }"   >
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+    <tr>
+      <td *ngFor="let col of headerList; let i = index" style="white-space: nowrap">
+  <!-- Status column -->
+  <ng-container *ngIf="col.field === 'status'; else nonStatusCell">
+    <span class="status-badge" [ngClass]="getStatusClass(car[col.field])">
+      {{ car[col.field] }}
+    </span>
+  </ng-container>
+ 
+  <!-- Non-status columns -->
+  <ng-template #nonStatusCell>
+    <!-- Clickable column for i == 2 -->
+    <div *ngIf="i === 2" style="color: rgb(92, 92, 244); cursor: pointer"
+         (click)="setCartonNumber(car)">
+      {{ car[col.field] }}
+    </div>
+ 
+    <!-- Normal cell for all others -->
+    <div *ngIf="i !== 2">
+      {{ car[col.field] }}
+    </div>
+  </ng-template>
+</td>
+    </tr>
+  </ng-template>
+</p-table>

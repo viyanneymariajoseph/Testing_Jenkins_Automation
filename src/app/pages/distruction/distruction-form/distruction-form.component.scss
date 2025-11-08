@@ -1,0 +1,20 @@
+.btn.btn-sm.btn-neutral {
+  background: #fff;
+  color: #005984;
+  padding: 10px 15px;
+  border: 1px solid #005984;
+}
+
+.btn.btn-sm.btn-neutral:hover {
+  color: #005984;
+  background-color: #fff;
+}
+.btn-green-hover:hover {
+  background-color: #28a745 !important; // Bootstrap success green
+  color: #fff !important;
+}
+
+.btn-grey-hover:hover {
+  background-color: #6c757d !important; // Bootstrap dark grey
+  color: #fff !important;
+}

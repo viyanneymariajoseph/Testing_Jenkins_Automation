@@ -1,0 +1,155 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                Refilling Report
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="RefillingReportForm">
+        <div class=" card">
+          <div class="card-header">
+            <div class=" row">
+
+              <div class="col-md-4">
+                <div class="form-group row align-items-center">
+                  <label class="form-control-label col-sm-4 font-weight-bold text-dark"
+                    style="white-space: nowrap; margin-right: -72px; font-size: 14px;" for="FromDate">
+                    From Date
+                  </label>
+                  <div class="col-sm-8">
+                    <input type="text" formControlName="FromDate" class="form-control" placeholder="Select From Date"
+                      bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }" [maxDate]="maxDate"
+                      (bsValueChange)="onFromDateChange($event)" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4" style="margin-left: -72px;">
+                <div class="form-group row align-items-center">
+                  <label class="form-control-label col-sm-4 font-weight-bold text-dark"
+                    style="white-space: nowrap; margin-right: -85px; font-size: 14px;" for="ToDate">
+                    To Date
+                  </label>
+                  <div class="col-sm-8">
+                    <input type="text" formControlName="ToDate" class="form-control" placeholder="Select To Date"
+                      bsDatepicker [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }" [minDate]="minToDate"
+                      [maxDate]="maxDate" (bsValueChange)="onToDateChange($event)" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3" style="margin-left: -70px;">
+                <style>
+                  .btn-close-batch:hover {
+                    background-color: #0A424A !important;
+                    color: white !important;
+                  }
+                </style>
+                <button class="btn btn-sm btn-neutral btn-close-batch" (click)="GetRefillingReport()"
+                  [disabled]="RefillingReportForm.invalid" [ngStyle]="
+    RefillingReportForm.invalid
+      ? { opacity: 0.6, cursor: 'not-allowed' }
+      : {}
+  ">
+                  Search
+                </button>
+
+
+                <button type="button" class="btn btn-sm btn-neutral" (click)="onDownload()" [ngStyle]="
+    !formattedData?.length
+      ? { opacity: 0.6, cursor: 'not-allowed' }
+      : {}
+  ">
+                  Download
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="dataTables_wrapper checklist-table w-100">
+
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+              (onPage)="paginate($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search search">
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+
+                  <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                    {{col.header}}
+                    <!-- <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon> -->
+                  </th>
+                  <!-- <th style="width: 10%;">
+                      ACTION
+                    </th> -->
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+
+                  <td *ngFor="let col of headerList">
+                    {{car[col.field]}}
+                  </td>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td [attr.colspan]="headerList.length + 1" class="p-0">
+                    <div class="d-flex justify-content-center align-items-center w-100" style="min-height: 200px;">
+                      <h2 class="text-gray mb-0">Oops!, no data to show</h2>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .btn-sm.btn-neutral {
+    background: #fff;
+    color: #005984;
+    padding: 10px 15px;
+    border: 1px solid #005984;
+  }
+
+  .btn-sm.btn-neutral:hover {
+    color: #005984;
+    background-color: #fff;
+  }
+</style>

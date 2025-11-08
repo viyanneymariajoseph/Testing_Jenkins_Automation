@@ -1,0 +1,80 @@
+.modal-content-full-width  {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #ececec !important 
+}
+
+.modal-header-full-width  {
+    border-bottom: 1px solid #9ea2a2 !important;
+}
+
+.modal-footer-full-width  {
+    border-top: 1px solid #9ea2a2 !important;
+}
+::ng-deep .data-entry .modal-dialog {
+    max-width: 1400px !important;
+}
+
+::ng-deep .data-entry .modal .modal-content .card {
+    margin: 0;
+    padding: 1rem 0;
+}
+.btn-save:hover {
+  background-color: #0A424A !important; /* Yellow */
+  color: white !important;
+}
+.btn-close-batch:hover {
+background-color: #0A424A !important; /* Yellow */
+color: white !important;
+}
+ 
+
+.btn-grey-hover:hover {
+  background-color: #6c757d !important; // Bootstrap dark grey
+  color: #fff !important;
+}
+.btn.btn-sm.btn-neutral {
+  background: #fff;
+  color: #005984;
+  padding: 10px 15px;
+  border: 1px solid #005984;
+}
+ 
+.btn.btn-sm.btn-neutral:hover {
+  color: #005984;
+  background-color: #fff;
+}
+ 
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+ 
+.status-accepted {
+  background-color: #4caf50; /* green */
+}
+ 
+.status-review {
+  background-color: #ffc107; /* yellow */
+  color: #333;
+}
+ 
+.status-rejected {
+  background-color: #e53935; /* red */
+}
+ 
+.status-incomplete {
+  background-color: #9e9e9e; /* grey */
+}
+ 
+.status-default {
+  background-color: #607d8b; /* fallback grey-blue */
+}
+ 
+ 

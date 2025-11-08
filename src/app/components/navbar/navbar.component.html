@@ -1,0 +1,84 @@
+<nav
+  class="navbar navbar-top navbar-expand navbar-dark bg-danger border-bottom m-0 p-0"
+  id="navbar-main"
+>
+  <div class="container-fluid m-0 p-0">
+    <app-sidebar class="m-0 p-0"
+    ></app-sidebar>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Search form -->
+
+      <form
+        class="navbar-search navbar-search-light form-inline mr-sm-3"
+        id="navbar-search-main"
+      >
+      </form>
+      <!-- Navbar links -->
+      <ul class="navbar-nav align-items-center ml-xl-auto">
+        <li class="nav-item d-xl-none">
+          <!-- Sidenav toggler -->
+          <div
+            class="pr-3 sidenav-toggler sidenav-toggler-dark"
+            data-action="sidenav-pin"
+            data-target="#sidenav-main"
+          >
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item d-sm-none">
+          <a class="nav-link" (click)="openSearch()">
+            <i class="ni ni-zoom-split-in"></i>
+          </a>
+        </li>
+
+      </ul>
+      <!-- User -->
+      <ul class="navbar-nav align-items-center ml-auto ml-xl-0">
+        
+        <li class="nav-item dropdown" dropdown placement="bottom-right">
+          <a class="nav-link pr-0 dropdown-toggle" role="button" dropdownToggle>
+            <div class="media align-items-center">
+              <span class="avatar avatar-sm rounded-circle">
+                <img
+                  alt="Image placeholder"
+                  src="assets/admin-icon.png"
+                />
+              </span>
+              <div class="media-body ml-2 d-none d-lg-block">
+                <span class="mb-0 text-sm  font-weight-bold">{{UserName}}</span>
+              </div>
+            </div>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-arrow dropdown-menu-right"
+            *dropdownMenu
+          >
+          <a class="dropdown-item"
+          routerLink="/usermanagement/change-password"
+          >
+            <i class="ni ni-key-25" ></i> <span>Change Password</span>
+          </a>
+            <!-- <div class="dropdown-divider"></div> -->
+            <a href="javascript:void()" class="dropdown-item" (click)="Logout()"           
+            
+            >
+              <i class="ni ni-user-run" ></i> <span>Logout</span>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<div
+  *ngIf="sidenavOpen === true"
+  class="backdrop d-xl-none"
+  (click)="toggleSidenav()"
+></div>

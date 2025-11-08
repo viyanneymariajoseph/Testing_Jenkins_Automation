@@ -1,0 +1,194 @@
+<div class="viewpage">
+  <div class="pt-2 pl-3">
+    <h2 style="border-bottom: 1px solid black;">VIEW PICKUP REQUEST</h2>
+  </div>
+
+  <div class="m-2 p-3">
+    <form>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label for="main_file_count">Request Number</label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.request_id"
+              readonly>
+
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">Service Type</label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.service_type"
+              readonly>
+
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="document_type">Document Type</label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.document_type"
+              readonly>
+          </div>
+
+          <!-- Main File Count Input -->
+
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="main_file_count">Main File (File Count)</label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.main_file_count"
+              readonly>
+          </div>
+
+          <!-- Collateral File Count Input -->
+
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label for="collateral_file_count">Collateral File (File Count)</label>
+            <input type="text" class="form-control form-control-sm" placeholder=""
+              [value]="AllData.collateral_file_count" readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Branch Code
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.branch_code"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Branch Name
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.branch_name"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Requested By
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.request_by"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Requested Date
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.request_date"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Ack By
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.ack_by" readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Ack Date
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.ack_date" readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Scheduled By
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.entry_by" readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Schedule Date
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.schedule_date"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Re-Schedule Date
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.reschedule_date"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Reschedule Reason
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.reschedule_reason"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Request Status
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData.request_status"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Escort Name
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData?.escort_name"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Escort Mobile Number
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData?.escort_number"
+              readonly>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-control-label" for="Branch">
+              Vehicle Number
+            </label>
+            <input type="text" class="form-control form-control-sm" placeholder="" [value]="AllData?.vehicle_number"
+              readonly>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="collateral_file_count">Remark</label>
+            <textarea name="" id="" cols="30" rows="2" class="form-control form-control-sm" [value]="AllData?.remark"
+              readonly></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- Document Type Dropdown -->
+
+
+      <div class="d-flex justify-content-end">
+
+        <button type="button" class="btn btn-danger" (click)="close()">Close</button>
+      </div>
+    </form>
+
+  </div>
+
+</div>

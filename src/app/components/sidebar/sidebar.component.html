@@ -1,0 +1,132 @@
+<nav
+  class="d-none sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white m-0 p-0"
+  id="sidenav-main"
+  (mouseover)="onMouseEnterSidenav()"
+  (mouseout)="onMouseLeaveSidenav()"
+>
+<perfect-scrollbar class="m-o p-0">
+  <div class="scrollbar-inner">
+  
+    <div class="navbar-inner m-0 p-0 px-3">
+      <div class="collapse navbar-collapse m-0 p-0" id="sidenav-collapse-main">
+        <!-- Collapse header -->
+        <ul class="navbar-nav">
+          <li *ngFor="let menuitem of menuItems" class="nav-item p-0 m-0 w-100">
+            <!--If is a single link-->
+            <a
+              routerLinkActive="active"
+              [routerLink]="[menuitem.path]"
+              *ngIf="menuitem.type === 'link'"
+              class="nav-link "
+            >
+              <i class="ni {{ menuitem.icontype }}"></i>
+              <span class="nav-link-text">{{ menuitem.title }}</span>
+            </a>
+            <!--If it have a submenu-->
+            <a
+              data-toggle="collapse"
+              routerLinkActive="active"
+              *ngIf="menuitem.type === 'sub'"
+              (click)="menuitem.isCollapsed = !menuitem.isCollapsed"
+              [attr.aria-expanded]="!menuitem.isCollapsed"
+              [attr.aria-controls]="menuitem.collapse"
+              class="nav-link"
+            >
+              <i class="ni {{ menuitem.icontype }}"></i>
+              <span class="nav-link-text">{{ menuitem.title }}</span>
+            </a>
+
+            <!--Display the submenu items-->
+            <div
+              id="{{ menuitem.collapse }}"
+              class="collapse m-0 p-0"
+              *ngIf="menuitem.type === 'sub'"
+              [collapse]="menuitem.isCollapsed"
+              [isAnimated]="true"
+            >
+              <ul class="nav nav-sm m-0 p-0 list-group">
+                <li
+                  *ngFor="let childitems of menuitem.children"
+                  class="nav-item m-0 p-0"
+                >
+                  <!--If is a single link-->
+                  <a
+                    routerLinkActive="active"
+                    [routerLink]="[menuitem.path, childitems.path]"
+                    class="nav-link"
+                    *ngIf="childitems.type === 'link'"
+                  >
+                    <span [ngClass]="childitems.path ? childitems.path: ''"></span>
+                    {{ childitems.title }}
+                  </a>
+                  <!--If it have a submenu-->
+                  <a
+                    data-toggle="collapse"
+                    (click)="childitems.isCollapsed = !childitems.isCollapsed"
+                    [attr.aria-expanded]="!childitems.isCollapsed"
+                    [attr.aria-controls]="childitems.collapse"
+                    *ngIf="childitems.type === 'sub'"
+                    class="nav-link m-0 p-0"
+                  >
+                    {{ childitems.title }}
+                  </a>
+                  <!--Display the submenu items-->
+                  <div
+                    id="{{ childitems.collapse }}"
+                    class="collapse"
+                    *ngIf="childitems.type === 'sub'"
+                    [collapse]="childitems.isCollapsed"
+                    [isAnimated]="true"
+                  >
+                    <ul class="nav">
+                      <li
+                        *ngFor="let childitem of childitems.children"
+                        class="nav-item"
+                      >
+                        <a href="javascript:void(0)" class="nav-link">
+                          {{ childitem.title }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <!-- Divider -->
+         
+        
+      </div>
+    </div>
+  </div>
+</perfect-scrollbar>
+
+</nav>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light top-navbar d-xl-block" >
+  
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav w-100">
+      <li *ngFor="let menuitem of menuItems" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="topnav-menu-icon ni {{ menuitem.icontype }}"></i>
+          {{ menuitem.title }}
+        </a>
+       
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a *ngFor="let childitems of menuitem.children" class="dropdown-item" [routerLink]="[menuitem.path, childitems.path]">
+            <!-- <span class="child-item-icon" [ngClass]="childitems.path ? childitems.path: ''"></span> -->
+            {{ childitems.title }}
+          </a>
+        </div>
+      </li>
+      
+
+      <!-- <li >
+        <a class="pt-2" routerLink='klap/Klap-Branch-Pending' style="color: beige;margin-top: 10px;position: absolute;"> Klap</a>
+      </li> -->
+    </ul>
+  </div>
+</nav>

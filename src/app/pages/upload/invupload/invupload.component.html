@@ -1,0 +1,120 @@
+<div class="header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">Inv upload</h6> -->
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> Upload </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+                Inv upload
+              </li>
+            </ol>
+          </nav>
+
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="DataUploadForm">
+      <div class=" card">     
+        <div class="card-header">
+          <div class="position-relative row form-group">
+            
+          
+            <div class="row align-items-center">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="Branch">
+                    Branch Name
+                  </label>
+                  <select class="form-select" [(ngModel)]="barnchName" (change)="AddBranchCode($event)">
+    <option value="" selected disabled>--Select--</option>
+    <option *ngFor="let data of AllBranch; let i = index" value={{data.branch_name}}>{{data.branch_name}}</option>
+</select>
+
+                </div>
+              </div>
+            
+              <div class="col-sm-3">
+                <div class="custom-file">
+                  <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv" />
+                  <label style="width: 98%;" class="custom-file-label" for="csvReader">
+                    <span class="selected-file-name"></span>
+                  </label>
+                </div>
+              </div>
+            
+              <div class="col-sm-6">
+                <button 
+                  type="button" 
+                  class="btn btn-success" 
+                  style="font-size: 15px" 
+                  (click)="onSubmit()" 
+                  [disabled]="buttonDisabled">
+                  Upload CSV <i class="fas fa-file-upload"></i>
+                </button>
+              
+                
+
+                <button type="button" class="btn btn-warning" style="font-size: 15px" (click)="downloadFile()">
+                  Download CSV <i class="fas fa-file-download"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>          
+          <div class="dataTables_wrapper checklist-table w-100">
+             
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                  
+                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search search">
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                     
+                      <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                          {{col.header}}
+                          <!-- <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon> -->
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                  <tr>
+                     
+                      <td *ngFor="let col of headerList">
+                        {{car[col.field]}}
+                      </td>
+                  
+                  </tr>
+              </ng-template>
+          </p-table>              
+  
+          </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+ 

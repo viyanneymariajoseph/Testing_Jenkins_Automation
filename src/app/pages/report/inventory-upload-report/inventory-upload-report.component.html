@@ -1,0 +1,273 @@
+<div class="DataEntryMainContainer">
+    <div class="header pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <!-- <h6 class="h2 text-white d-inline-block mb-0">REPORT</h6> -->
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+                  </li>
+  
+                  <li class="breadcrumb-item">
+                    <a href="javascript:void(0)"> Process </a>
+                  </li>
+  
+                  <li aria-current="page" class="breadcrumb-item active">
+                    Inventory Upload Report
+                  </li>
+                </ol>
+              </nav>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class=" container-fluid mt--6">
+    <div class=" row">
+      <div class=" col">
+        <div class=" card">
+          <div class=" card-header">
+            <form [formGroup]="RefillingReportForm">
+              <div class=" row">
+
+
+                <div class=" col-md-3">
+                  <div class=" form-group">
+                    <label class=" form-control-label" for="FromDate">
+                      From Date
+                    </label>
+                    <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+    
+                     <input
+                      type="text"
+                      formControlName="FromDate"
+                      placeholder="Datepicker"
+                      class="form-control"
+                      bsDatepicker
+                      [bsValue]="bsValue"
+                      [bsConfig]="{ isAnimated: true, containerClass: 'theme-red',maxDate :currentDate }"
+
+                    /> 
+                  </div>
+                </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group"> <label class=" form-control-label" for="ToDate">
+                      To Date
+                    </label>
+    
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                        </div>
+                        <input type="text" formControlName="ToDate" 
+                                    placeholder="Datepicker"
+                                    class="form-control"
+                                    bsDatepicker
+                                    [bsValue]="bsValue"
+                                    [bsConfig]="{ isAnimated: true, containerClass: 'theme-red',maxDate :currentDate }"
+                                    >
+                      </div>
+                    </div>
+    
+    
+                  </div>
+    
+          <div class=" col-md-3 mt-4 pt-2">  
+            <button class="btn btn-primary"   style="border: none;color: #fff;opacity: 1;" (click)="getreffilingreport()"> Search</button>       
+            <button class="btn"   style="background-color: #F2A123;border: none;color: #fff;opacity: 1;" (click)="onDownload()"> Download</button>       
+        </div>  
+              
+              </div>
+            </form>
+          </div>
+  
+          <div class="dataTables_wrapper py-4 checklist-table">
+  
+  
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+              (onPage)="paginate($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+                  (input)="searchTable($event)" class="global-search search">
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                    {{col.header}}
+                  </th>
+                  <!-- <th style="width: 10%;">
+                    ACTION
+                  </th> -->
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                  <td *ngFor="let col of headerList">
+                    {{car[col.field]}}
+                  </td>
+                  <!-- <td>
+  
+                    <button type="button" style="padding:0 0 5px 4px" class="btn text-primary h3"
+                      (click)="Editinward(InwardFormPopup,car)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" style="padding:0 0 5px 4px" class="btn text-success h3"
+                    (click)="Editinward1(InwardFormPopupView,car)">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                    <button type="button" style="padding:0 0 5px 4px" class="btn text-danger h3"
+                    (click)="Editinward2(car)">
+                      <i class="fa fa-cloud-download"></i>
+                    </button>
+                    
+                    
+                  </td> -->
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <ng-template #InwardFormPopup let-c="close" let-d="dismiss" let-modal>
+  
+    <div class="modal-content">
+      <div class="modal-body p-0">
+  <div class="pt-2 pl-3">
+    <h2 style="border-bottom: 1px solid black;">ADD PICKUP REQUEST</h2>
+  </div>
+  
+        <div class="m-2 p-3">
+          <form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+              <label for="main_file_count">Request Number</label>
+              <input formControlName="request_id" type="text" class="form-control" placeholder="Request Number" readonly
+                [ngClass]="{'is-invalid': PickupControls['request_id'].invalid && (PickupControls['request_id'].touched || submitted)}">
+              <div
+                *ngIf="PickupControls['request_id'].invalid && (PickupControls['request_id'].touched || submitted)"
+                class="invalid-feedback">
+                <div *ngIf="PickupControls['request_id'].hasError('request_id')">* Main File is required.
+                </div>
+              </div>
+            </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="Branch">
+                    Branch Code
+                  </label>
+                  <select class="form-select" formControlName="branch_id"
+                    [ngClass]="{'is-invalid': FormControls['branch_id'].invalid && (FormControls['branch_id'].touched || submitted)}">
+                    <option value="" selected disabled>--Select--</option>
+                    <option *ngFor="let data of AllBranch;let i=index" value={{data.id}}>{{data.branch_name}}</option>
+                  </select>
+                  <div *ngIf="FormControls['branch_id'].invalid && (FormControls['branch_id'].touched || submitted)"
+                    class="invalid-feedback">
+                    <div *ngIf="FormControls['branch_id'].hasError('required')">* Branch is required.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 px-0 pr-3">
+                <div class="form-group px-0">
+                  <label class="form-control-label" for="Branch">Service Type</label>
+                  <select formControlName="service_type" class="form-select mx-0"
+                    [ngClass]="{'is-invalid': PickupControls['service_type'].invalid && (PickupControls['service_type'].touched || submitted)}">
+  
+                    <option value="" disabled>--Select--</option>
+                    <option value="Fresh">Fresh</option>
+                    <option value="insertion">Insertion</option>
+                  </select>
+                  <div
+                    *ngIf="PickupControls['service_type'].invalid && (PickupControls['service_type'].touched || submitted)"
+                    class="invalid-feedback">
+                    <div *ngIf="PickupControls['service_type'].hasError('required')">* Service Type is required.</div>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+            <!-- Document Type Dropdown -->
+            <div class="form-group">
+              <label for="document_type">Document Type</label>
+              <select formControlName="document_type" class="form-select" (change)="toggleValidators()"
+                [ngClass]="{'is-invalid': PickupControls['document_type'].invalid && (PickupControls['document_type'].touched || submitted)}">
+                <option value="" disabled>--Select--</option>
+                <option value="Main File">Main File</option>
+                <option value="Collateral File">Collateral File</option>
+                <option value="Both (Main and Collateral)">Both (Main and Collateral)</option>
+              </select>
+              <div
+                *ngIf="PickupControls['document_type'].invalid && (PickupControls['document_type'].touched || submitted)"
+                class="invalid-feedback">
+                <div *ngIf="PickupControls['document_type'].hasError('required')">* Document Type is required.</div>
+              </div>
+            </div>
+  
+            <!-- Main File Count Input -->
+            <div class="form-group"
+              *ngIf="pickupForm.get('document_type').value === 'Main File' || pickupForm.get('document_type').value === 'Both (Main and Collateral)'">
+              <label for="main_file_count">Main File (File Count)</label>
+              <input formControlName="main_file_count" type="number" class="form-control" placeholder="Main File "
+                [ngClass]="{'is-invalid': PickupControls['main_file_count'].invalid && (PickupControls['main_file_count'].touched || submitted)}">
+              <div
+                *ngIf="PickupControls['main_file_count'].invalid && (PickupControls['main_file_count'].touched || submitted)"
+                class="invalid-feedback">
+                <div *ngIf="PickupControls['main_file_count'].hasError('main_file_count')">* Main File is required.
+                </div>
+              </div>
+            </div>
+  
+            <!-- Collateral File Count Input -->
+            <div class="form-group"
+              *ngIf="pickupForm.get('document_type').value === 'Collateral File' || pickupForm.get('document_type').value === 'Both (Main and Collateral)'">
+              <label for="collateral_file_count">Collateral File (File Count)</label>
+              <input formControlName="collateral_file_count" type="number" class="form-control"
+                placeholder="Collateral File"
+                [ngClass]="{'is-invalid': PickupControls['collateral_file_count'].invalid && (PickupControls['collateral_file_count'].touched || submitted)}">
+              <div
+                *ngIf="PickupControls['collateral_file_count'].invalid && (PickupControls['collateral_file_count'].touched || submitted)"
+                class="invalid-feedback">
+                <div *ngIf="PickupControls['collateral_file_count'].hasError('collateral_file_count')">* Collateral File
+                  is required.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="collateral_file_count">Remark</label>
+              <textarea name="" id="" cols="30" rows="3" class="form-control" formControlName="remark"></textarea>
+            </div>
+  
+  
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-success">Save</button>
+              <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
+            </div>
+          </form>
+  
+        </div>
+  
+  
+  
+  
+      </div>
+    </div>
+  </ng-template>
+  
+  
+  

@@ -1,0 +1,163 @@
+<div class="header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                Roles
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <!-- <div class=" col-lg-6 col-5 text-right">
+          <a class=" btn btn-sm btn-neutral" (click)="AddRole()"> 
+             <i class="fa fa-plus"></i>
+            Create New Role</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class="dataTables_wrapper checklist-table w-100">
+
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              <div class="d-flex justify-content-between align-items-center">
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search search">
+
+                <div class=" col-lg-6 col-5 text-right">
+                  <a class="btn btn-sm btn-neutral btn-close-batch" (click)="AddRole()">
+                    <style>
+                      .btn-close-batch:hover {
+                        background-color: #0A424A !important;
+                        /* Yellow */
+                        color: white !important;
+                      }
+                    </style>
+                    <i class="fa fa-plus"></i>
+                    Create New Role
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 10%">ACTION</th>
+                <th *ngFor="let col of headerList; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+                  {{ col.header }}
+                  <p-sortIcon *ngIf="i == 10" [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td>
+                  <button type="button" style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                    class="btn btn-icon btn-icon-only"
+                    [routerLink]="['/usermanagement/addrole', car.id, car.roleName, car.remarks]">
+                    <span class="btn-inner--icon"><i class="fa fa-pen"></i></span>
+                  </button>
+
+                  <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only"
+                    (click)="OnDelete(car)">
+                    <span class="btn-inner--icon">
+                      <img src="assets/img/icons/delete.svg" />
+                    </span>
+                  </button>
+                </td>
+
+                <td *ngFor="let col of headerList">
+                  {{ car[col.field] }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+
+        </div>
+
+        <!-- <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="_FilteredList"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="roleName">Role</ngx-datatable-column>
+            <ngx-datatable-column name="remarks">remarks</ngx-datatable-column>
+            <ngx-datatable-column name="Action" sortable="false" prop="id">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-warning btn-icon-only rounded-circle" (click)="OnEdit(row)">
+                  <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                </button>
+                <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-danger btn-icon-only rounded-circle" (click)="OnDelete(value)">
+                  <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+                </button>
+          </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

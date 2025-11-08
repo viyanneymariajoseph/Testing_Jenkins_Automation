@@ -1,0 +1,84 @@
+<div>
+    <div class="header pb-6">
+        <div class=" container-fluid">
+            <div class=" header-body">
+                <div class=" row align-items-center py-4">
+                    <div class=" col-lg-6 col-7">
+                        <!-- <h6 class=" h2 text-white d-inline-block mb-0">File Inventory QC</h6> -->
+                        <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                            <ol class=" breadcrumb">
+                                <li class=" breadcrumb-item">
+                                    <a href="javascript:void(0)"> <i class=" fas fa-home"
+                                            routerLink="/search/quick-search"> </i> </a>
+                                </li>
+
+                                <li class=" breadcrumb-item">
+                                    <a href="javascript:void(0)"> Process </a>
+                                </li>
+
+                                <li aria-current="page" class=" breadcrumb-item active">
+                                    File Inventory QC
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <!-- <div class=" col-lg-6 col-5 text-right">
+              <a class=" btn btn-sm btn-neutral" (click)="addUser(userFormPopup)"> Create New User</a>
+            </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" container-fluid mt--6">
+        <div class=" row">
+            <div class=" col">
+                <div class=" card">
+
+
+                    <div class="dataTables_wrapper checklist-table w-100">
+                        <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+                            (onPage)="paginate($event)" [loading]="loading"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                            <ng-template pTemplate="caption">
+                                
+                                <input type="text" pInputText size="50" placeholder="Search records"
+                                    (input)="searchTable($event)" class="global-search search">
+
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th *ngFor="let col of headerList; let i = index;"
+                                        [ngStyle]="i==0 && {'width': '5%'}" style="white-space: nowrap;">
+                                        {{col.header}}
+                                    </th>
+                                    <th style="width: 10%;" style="white-space: nowrap;">
+                                        ACTION
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                                <tr>
+                                    <td *ngFor="let col of headerList" style="white-space: nowrap;">
+                                        {{car[col.field]}}
+                                    </td>
+                                    <td style="white-space: nowrap;">
+
+                                        <button type="button" style="padding:0 0 5px 4px" class="btn text-primary h3"
+                                            (click)="Editinward(InwardFormPopup,car)">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

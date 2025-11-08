@@ -1,0 +1,270 @@
+.body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0fdfa, #cbf4ed) !important ;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+
+.login-container {
+  display: flex;
+  width: 800px;
+  height: 450px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: white;
+  margin: auto;
+  margin-top: 5%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.left-panel {
+  background-color: #003f3b;
+  color: white;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-image: radial-gradient(#1c5f5b 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+
+
+.company-name {
+  color: #FFD700 !important;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.company-tagline {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #d1d1d1;
+}
+
+.slogan {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #a7b3b2;
+}
+
+.right-panel {
+  background-color: #ffffff;
+  width: 55%;
+  padding: 40px 30px;
+}
+
+.right-panel h2 {
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #003f3b;
+}
+
+/* Form controls */
+form label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #003f3b !important;
+}
+
+input.form-control {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: normal;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 6px ;
+}
+
+.input-group-append button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  color: #555;
+  cursor: pointer;
+}
+
+.input-group-append button:hover {
+  color: #000;
+  
+}
+
+.sign_btn {
+  background-color: #003f3b;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sign_btn:hover {
+  background-color: #02544e;
+}
+
+.errorMsg-feedback {
+  font-size: 12px;
+  color: red;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.login_heading {
+  font-size: 13px;
+  color: #666;
+  text-align: right;
+  padding-top: 7px;
+}
+
+.login_heading a {
+  color: #003f3b;
+  text-decoration: none;
+  padding-left: 5px;
+}
+
+.login_heading a:hover {
+  text-decoration: underline;
+}
+
+
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-area .logo {
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+  margin-bottom: 15px;
+  object-fit: contain;
+}/* Fullscreen overlay */
+.help-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Popup box */
+.help-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: 90%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: left;
+  font-family: "Segoe UI", Arial, sans-serif;
+  animation: slideUp 0.3s ease-in-out;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease;
+}
+.close-btn:hover {
+  color: #000;
+}
+
+/* Titles */
+.help-title {
+  margin: 0 0 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #004080;
+}
+
+.help-subtitle {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+/* Text & List */
+.help-content p,
+.help-content li {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.help-content ol {
+  padding-left: 20px;
+}
+
+/* Contact email */
+.help-contact {
+  margin-top: 10px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+.help-contact i {
+  margin-right: 8px;
+  color: #004080;
+}
+.help-contact a {
+  color: #004080;
+  text-decoration: none;
+  font-weight: 500;
+}
+.help-contact a:hover {
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes slideUp {
+  from {transform: translateY(20px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}

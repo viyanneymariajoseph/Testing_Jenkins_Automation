@@ -1,0 +1,175 @@
+<br />
+<br /><br /><br /><br />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="retrieval_add_form">
+          <form class="needs-validation p-4" [formGroup]="AddFileInwardForm">
+            <div class="form-row">
+              <div class="col" style="flex: 2.5">
+                <label for="BatchID">Carton Number</label>
+                <div class="">
+                  <input name="appl" type="text" readonly placeholder="Document Type" type="text" class="form-control"
+                    formControlName="cartonNo" />
+                </div>
+              </div>
+              <div class="col" style="flex: 2.5">
+                <label for="BatchID">Department Name</label>
+                <div class="">
+                  <input name="appl" type="text" readonly placeholder="Department Name" type="text" class="form-control"
+                    formControlName="department" />
+                </div>
+              </div>
+
+              <div class="col-md-3" style="flex: 2.5">
+                <label for="BatchID">Document Type</label>
+                <div class="">
+                  <input name="appl" type="text" readonly placeholder="Document Type" type="text" class="form-control"
+                    formControlName="documentType" />
+                </div>
+              </div>
+              <div class="col" style="flex: 2.5">
+                <label for="BatchID">Detail Document Type</label>
+                <div class="">
+                  <input name="appl" type="text" readonly placeholder="Detail Document Type" type="text"
+                    class="form-control" formControlName="detailDocumentType" />
+                  <div *ngIf="
+                      FormControls['batchId'].invalid &&
+                      (FormControls['batchId'].touched || submitted)
+                    " class="invalid-feedback">
+                    <div *ngIf="FormControls['batchId'].hasError('required')">
+                      * Branch Code is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row mt-4">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="service_type">Retension Period</label>
+                  <div class="">
+                    <input name="appl" type="text" readonly placeholder="Retension Period" type="text"
+                      class="form-control" formControlName="retensionPeriod" />
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="service_type">Warehouse</label>
+                  <div class="">
+                    <input name="appl" type="text" readonly placeholder="Warehouse" type="text" class="form-control"
+                      formControlName="warehouse" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="service_type">Detail Location</label>
+                  <div class="">
+                    <input name="appl" type="text" readonly placeholder="Detail Location" type="text"
+                      class="form-control" formControlName="detailLocation" />
+                    <div *ngIf="
+                        FormControls['batchId'].invalid &&
+                        (FormControls['batchId'].touched || submitted)
+                      " class="invalid-feedback">
+                      <div *ngIf="FormControls['batchId'].hasError('required')">
+                        * Branch Code is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="service_type">Date of Destruction</label>
+                  <div class="">
+                    <input name="appl" type="text" readonly placeholder="Date of Destruction" type="text"
+                      class="form-control" formControlName="extensionDate" />
+                    <div *ngIf="
+                        FormControls['dateOfDestruction'].invalid &&
+                        (FormControls['dateOfDestruction'].touched || submitted)
+                      " class="invalid-feedback">
+                      <div *ngIf="FormControls['dateOfDestruction'].hasError('required')">
+                        * Branch Code is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="service_type">Destruction and Extension Period</label>
+                  <div class="">
+                    <select formControlName="isDestructionOrExtension" class="form-select" [ngClass]="{
+    'is-invalid':
+      FormControls['isDestructionOrExtension'].invalid &&
+      (FormControls['isDestructionOrExtension'].touched || submitted)
+  }" (change)="onSelectDocumentsss()">
+                      <option value="" disabled selected>--Select--</option>
+                      <option value="Extension">Extension</option>
+                      <option value="Destruction">Destruction</option>
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3" *ngIf="AddFileInwardForm.get('isDestructionOrExtension')?.value === 'Extension'">
+                <label for="extensionYear">Extension</label>
+                <select class="form-select" formControlName="extensionYear" [ngClass]="{
+      'is-invalid':
+        FormControls['extensionYear'].invalid &&
+        (FormControls['extensionYear'].touched || submitted)
+    }">
+                  <option value="" disabled selected>--Select--</option>
+                  <option value="1">1 Year</option>
+                  <option value="2">2 Year</option>
+                  <option value="3">3 Year</option>
+                  <option value="4">4 Year</option>
+                   <option value="5">5 Year</option>
+                    <option value="6">6 Year</option>
+                  <option value="7">7 Year</option>
+                   <option value="8">8 Year</option>
+                    <option value="9">9 Year</option>
+                  <option value="10">10 Year</option>
+                  <option value="11">11 Year</option>
+                  <option value="12">12 Year</option>
+                  <option value="13">13 Year</option>
+                  <option value="14">14 Year</option>
+                  <option value="15">15 Year</option>
+                  <option value="16">16 Year</option>
+                  <option value="17">17 Year</option>
+                  <option value="18">18 Year</option>
+                  <option value="19">19 Year</option>
+                  <option value="20">20 Year</option>
+
+                </select>
+              </div>
+
+            </div>
+           <div class="float-right pb-3">
+  <button 
+    type="button" 
+    class="btn btn-sm btn-neutral btn-green-hover" 
+    (click)="SaveData()">
+    Save
+  </button>
+
+  <button 
+    type="button" 
+    class="btn btn-sm btn-neutral btn-grey-hover ml-2" 
+    (click)="OnReset()">
+    Back
+  </button>
+</div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

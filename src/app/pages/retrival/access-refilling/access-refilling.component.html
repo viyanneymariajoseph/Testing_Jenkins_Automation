@@ -1,0 +1,152 @@
+<div class="header bg-danger">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)"> Process </a>
+              </li>
+              <li aria-current="page" class="breadcrumb-item active">
+                Access Refilling
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding-top: 18px;" class="container-fluid">
+  <form [formGroup]="AccessRefillingForm">
+    <div class="card">
+      <p-tabView>
+        <!-- UploadCSV Tab -->
+        <p-tabPanel header="UploadCSV">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-sm-3">
+                <label class="form-control-label" for="Branch">Access Refilling NO</label>
+                <div class="input-group">
+                  <input type="text" name="FileNo"  class="form-control dynamic-width"placeholder="Access Refilling NO"
+                    formControlName="refillingAccess_number" readonly />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" (click)="Generate_Batch_id()" type="button">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <label class="form-control-label" for="item_Code">Item Code</label>
+                <select class="form-select custom-dropdown" formControlName="item_Code" aria-label="Select Item Code">
+                  <option value="" disabled selected>Select Item Code</option>
+                  <option value="1">Container</option>
+                  <option value="2">File</option>
+                </select>
+              </div>
+              
+
+              <div style="margin-top: 25px !important;" class="col-sm-3">
+                <div class="custom-file">
+                  <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv" />
+                  <label style="width: 98%;" class="custom-file-label" for="csvReader">
+                    <span class="selected-file-name"></span>
+                  </label>
+                </div>
+              </div>
+              <div style="margin-top: 25px !important;" class="col-auto">
+                <button type="button" class="btn btn-success" (click)="onSubmit()"
+                  [disabled]="AccessRefillingForm.invalid">
+                  Upload CSV <i class="fas fa-file-upload"></i>
+                </button>
+                <button type="button" class="btn btn-warning" (click)="downloadFile()">
+                  Download CSV <i class="fas fa-file-download"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+
+        <!-- Manual Tab -->
+        <p-tabPanel header="Manual">
+          <form [formGroup]="manualForm">
+            <div class="row align-items-center">
+              <div class="col">
+                <label class="form-control-label" for="Branch">Access Refilling NO</label>
+                <div class="input-group">
+                  <input type="text" name="FileNo"  class="form-control dynamic-width" placeholder="Access Refilling NO"
+                    formControlName="refillingAccess_number" readonly />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" (click)="Generate_Batch_id2()" type="button">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <label class="form-control-label" for="item_Code">Item Code</label>
+                <select class="form-select custom-dropdown" formControlName="item_Code" aria-label="Select Item Code">
+                  <option value="" disabled selected>Select Item Code</option>
+                  <option value="1">Container</option>
+                  <option value="2">File</option>
+                </select>
+              </div>
+              <div class="col">
+                <label class="form-control-label" for="workorderNO">Work Order No</label>
+                <input type="text" class="form-control" id="workorderNO" placeholder="Enter Work Order NO"
+                  formControlName="workorderNO">
+              </div>
+              <div class="col">
+                <label class="form-control-label" for="itemnumber">Item Number</label>
+                <input type="text" class="form-control" id="itemnumber" placeholder="Enter Item NO"
+                  formControlName="itemnumber">
+                  <!-- <small class="text-danger" *ngIf="manualForm.controls['itemnumber'].touched && manualForm.controls['itemnumber'].invalid">
+                    Item Number must be exactly 8 or 10 digits.
+                  </small> -->
+              </div>
+            
+              <div class="col-auto">
+                <button type="submit" style="margin-top: 25px !important;" (click)="onManualUpdate()"
+                  [disabled]="manualForm.invalid" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </form>
+        </p-tabPanel>
+      </p-tabView>
+
+      <!-- Table Section -->
+      <div class="dataTables_wrapper checklist-table w-100">
+        <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+          (onPage)="paginate($event)" [loading]="loading"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+          <ng-template pTemplate="caption">
+            
+            <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+              class="global-search search">
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+            <tr>
+              <td *ngFor="let col of headerList">
+                {{car[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </form>
+</div>

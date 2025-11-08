@@ -1,0 +1,25 @@
+.modal-content-full-width  {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #ececec !important 
+}
+
+.modal-header-full-width  {
+    border-bottom: 1px solid #9ea2a2 !important;
+}
+
+.modal-footer-full-width  {
+    border-top: 1px solid #9ea2a2 !important;
+}
+::ng-deep .data-entry .modal-dialog {
+    max-width: 1400px !important;
+}
+
+::ng-deep .data-entry .modal .modal-content .card {
+    margin: 0;
+    padding: 1rem 0;
+}
+.no-wrap-text {
+    white-space: nowrap;
+  }

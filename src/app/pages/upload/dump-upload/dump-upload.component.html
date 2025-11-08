@@ -1,0 +1,101 @@
+<div class="header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4">
+            <ol class=" breadcrumb">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> Upload </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+                Dump Upload
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="DataUploadForm">
+      <div class=" card">     
+        <div class="card-header">
+          <div class="position-relative row form-group">
+            <div class="col-sm-3">
+              <div class="custom-file">
+                  <div class="chat-content-scroll-area scrollbar">
+                    <div class="col-12 col-sm-12">
+                    
+                      <div class="form-group pt-2">
+                          <input type="file" class="form-control form-control-sm bg-light" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv">
+                      </div>
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-success" style="font-size: 15px" (click)="onSubmit()" >
+                Upload CSV <i class=" fas fa-file-upload"></i>
+              </button>
+              <button type="button" class="btn btn-warning" style="font-size: 15px" (click)="downloadFile()">
+                Download CSV <i class=" fas fa-file-download"></i> 
+              </button>
+              <label style="color:red; font-size: 14px;">
+                Note : File should be 
+                <span style="color:red; font-size: 20px;"> , </span>  
+                seperator   
+              </label>
+            </div>
+          </div>  
+        </div>
+
+                    
+          <div class="dataTables_wrapper checklist-table w-100">
+             
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                  
+                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search search">
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                     
+                      <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                          {{col.header}}
+                          <!-- <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon> -->
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                  <tr>
+                     
+                      <td *ngFor="let col of headerList">
+                        {{car[col.field]}}
+                      </td>
+                  
+                  </tr>
+              </ng-template>
+          </p-table>
+                           
+  
+          </div>
+        
+        
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+ 

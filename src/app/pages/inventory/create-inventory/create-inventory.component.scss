@@ -1,0 +1,54 @@
+.custom-multiselect-style .p-multiselect-label {
+    width: 100% !important;
+    font-weight: bold;
+}
+
+.p-multiselect {
+    width: 100% !important;
+}
+
+.custom-multiselect-style .p-multiselect-trigger {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+.custom-multiselect-style .p-multiselect-trigger:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
+
+::ng-deep .custom-multiselect-style .p-multiselect {
+    width: 100% !important;
+    height: 89% !important;
+}
+
+::ng-deep .custom-multiselect-style .p-multiselect-label {
+    width: 100% !important;
+    font-weight: 200;
+}
+
+::ng-deep .custom-multiselect-style .p-multiselect-trigger {
+    background-color: white;
+    border-color: #ccc;
+}
+
+::ng-deep .custom-multiselect-style .p-multiselect-trigger:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+.btn-save:hover {
+  background-color: #28a745 !important; /* Green */
+  color: white !important;
+}
+
+.btn-back:hover,
+.btn-reset:hover {
+  background-color: #343a40 !important; /* Dark grey */
+  color: white !important;
+}
+
+.btn-close-batch:hover {
+  background-color: #0A424A !important; /* Yellow */
+  color: white !important;
+}

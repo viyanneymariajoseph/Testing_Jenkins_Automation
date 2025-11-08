@@ -1,0 +1,194 @@
+<div class="DataEntryMainContainer">
+  <div class="header pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <!-- <h6 class="h2 text-white d-inline-block mb-0">Pickup Request ACK</h6> -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> <i class="fas fa-home" routerLink="/search/quick-search"> </i> </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> Process </a>
+                </li>
+
+                <li aria-current="page" class="breadcrumb-item active">
+                  Pickup Request ACK
+                </li>
+              </ol>
+            </nav>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h3 class=" mb-0">Pickup Request Ack</h3>
+              <p class=" text-sm mb-0"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dataTables_wrapper py-4 checklist-table">
+
+
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              
+              <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+                (input)="searchTable($event)" class="global-search search">
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}" style="white-space: nowrap;">
+                  {{col.header}}
+                </th>
+                <th style="width: 10%;">
+                  ACTION
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of headerList" style="white-space: nowrap;">
+                  {{car[col.field]}}
+                </td>
+                <td style="white-space: nowrap;">
+
+                  <button type="button" style="padding:0 0 5px 4px" class="btn text-primary h3"
+                    (click)="Editinward(InwardFormPopup,car)">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                  <!-- <button type="button" style="padding:0 0 5px 4px" class="btn text-danger h3"
+                    (click)="deletedata(car.request_id)">
+                    <i class="fa fa-trash"></i>
+                  </button> -->
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #InwardFormPopup let-c="close" let-d="dismiss" let-modal>
+
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="px-4 pt-2">
+        <h2>PICKUP REQUEST ACK</h2>
+        <hr class="w-100 bg-dark my-3 p-0">
+      </div>
+
+      <div class="mx-2 px-3 py-2">
+        <form [formGroup]="pickupForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Request ID</label>
+                <input type="text" class="form-control" [value]="AckData?.request_id" readonly />
+
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Branch Code</label>
+                <input type="text" class="form-control" [value]="AckData?.branch_code" readonly />
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Requested By</label>
+                <input type="text" class="form-control" [value]="AckData?.request_by" readonly />
+
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_type">Request Date</label>
+                <input type="text" class="form-control" [value]="AckData?.request_date" readonly />
+
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="service_type">Service Type</label>
+                <input type="text" class="form-control" [value]="AckData?.service_type" readonly />
+
+
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="service_type">Main File</label>
+                <input type="text" class="form-control" [value]="AckData?.main_file_count" readonly />
+
+
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="service_type">Collateral File</label>
+                <input type="text" class="form-control" [value]="AckData?.collateral_file_count" readonly />
+
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label for="service_type">PickUp Address</label>
+              <textarea name="" id="" cols="30" rows="3" class="form-control" [value]="AckData?.address" readonly>
+              </textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label for="service_type">Crown Remark</label>
+              <input name="" id="" cols="30" rows="3" class="form-control" formControlName="pra_remark" />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button type="close" class="btn btn-danger" (click)="OnClose()">Close</button>
+            <button type="submit" class="btn btn-success" (click)="SubmitAck()">Save</button>
+          </div>
+        </form>
+
+      </div>
+
+
+
+
+    </div>
+  </div>
+</ng-template>

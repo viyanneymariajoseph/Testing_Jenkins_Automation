@@ -1,0 +1,139 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                Annual Review
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="dataTables_wrapper py-4 checklist-table">
+      <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+        <ng-template pTemplate="caption">
+          <div class="d-flex justify-content-between align-items-center">
+            <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+              (input)="searchTable($event)" class="global-search search" />
+            <button type="button" class="btn btn-sm btn-neutral btn-grey-hover ml-2" (click)="downloadFile()"
+              [disabled]="!formattedData?.length"
+              [ngStyle]="!formattedData?.length ? { opacity: 0.6, cursor: 'not-allowed' } : {}">
+              Download
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <!-- ACTION Column First -->
+            <th style="width: 5%; white-space: nowrap">ACTION</th>
+
+            <!-- SR NO Column -->
+            <th style="width: 5%; white-space: nowrap">SR NO</th>
+
+            <!-- Dynamic Columns -->
+            <th *ngFor="let col of headerList; let i = index"
+              [ngStyle]="i == 0 ? { width: '5%', whiteSpace: 'nowrap' } : { whiteSpace: 'nowrap' }">
+              {{ col.header }}
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+          <tr>
+            <!-- ACTION Column First -->
+            <td style="white-space: nowrap">
+              <a type="button" tooltip="Update Extension/Destruction"
+                style="padding:0 3px 5px 4px; border-radius: 50%; background-color: white;"
+                class="btn btn-icon btn-icon-only" [routerLink]="['/Destruction/destruction-form', car.id]">
+                <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+              </a>
+            </td>
+
+            <!-- SR NO -->
+            <td style="white-space: nowrap">
+              {{ car["srNo"] }}
+            </td>
+
+            <!-- Dynamic Columns -->
+            <td *ngFor="let col of headerList" style="white-space: nowrap">
+              {{ car[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="headerList.length + 1" class="p-0">
+              <div class="d-flex justify-content-center align-items-center w-100" style="min-height: 200px;">
+                <h2 class="text-gray mb-0">Oops!, no data to show</h2>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #InventoryPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">View Batch Details</h3>
+        </div>
+        <div class="card-body">
+          <div class="dataTables_wrapper py-4 checklist-table">
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData1" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first"
+              (onPage)="paginate1($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first1} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                <input type="text" pInputText size="50" class="form-control" placeholder="Search records"
+                  (input)="searchTable1($event)" class="global-search search" />
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 10%" style="white-space: nowrap">SR NO</th>
+                  <th *ngFor="let col of headerList1; let i = index" [ngStyle]="i == 0 && { width: '5%' }"
+                    style="white-space: nowrap">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                  <td>
+                    {{ car["srNo"] }}
+                  </td>
+                  <td *ngFor="let col of headerList1" style="white-space: nowrap">
+                    {{ car[col.field] }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

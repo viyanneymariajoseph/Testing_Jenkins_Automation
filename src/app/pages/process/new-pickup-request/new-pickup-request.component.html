@@ -1,0 +1,61 @@
+
+  
+    <div class="m-2">
+      <form [formGroup]="pickupForm" (ngSubmit)="onSubmit()">
+        <!-- Service Type Dropdown -->
+        <div class="form-group">
+          <label for="service_type">Service Type</label>
+          <select formControlName="service_type" class="form-control"
+          [ngClass]="{'is-invalid': PickupControls['service_type'].invalid && (PickupControls['service_type'].touched || submitted)}">
+                           
+            <option value="" disabled>--Select--</option>
+            <option value="pickup">Pickup</option>
+            <option value="insertion">Insertion</option>
+          </select>
+          <div *ngIf="PickupControls['service_type'].invalid && (PickupControls['service_type'].touched || submitted)" class="invalid-feedback">
+            <div *ngIf="PickupControls['service_type'].hasError('required')">* Service Type is required.</div>
+          </div>
+          
+        </div>
+      
+        <!-- Document Type Dropdown -->
+        <div class="form-group">
+          <label for="document_type">Document Type</label>
+          <select formControlName="document_type" class="form-control" (change)="toggleValidators()"
+          [ngClass]="{'is-invalid': PickupControls['document_type'].invalid && (PickupControls['document_type'].touched || submitted)}">
+            <option value="" disabled>--Select--</option>
+            <option value="mainFile">Main File</option>
+            <option value="collateralFile">Collateral File</option>
+          </select>
+          <div *ngIf="PickupControls['document_type'].invalid && (PickupControls['document_type'].touched || submitted)" class="invalid-feedback">
+            <div *ngIf="PickupControls['document_type'].hasError('required')">* Document Type is required.</div>
+          </div>
+        </div>
+      
+        <!-- Main File Count Input -->
+        <div class="form-group" *ngIf="pickupForm.get('document_type').value === 'mainFile'">
+          <label for="main_file_count">Main File (File Count)</label>
+          <input formControlName="main_file_count" type="number" class="form-control" placeholder="Main File "
+          [ngClass]="{'is-invalid': PickupControls['main_file_count'].invalid && (PickupControls['main_file_count'].touched || submitted)}">
+          <div *ngIf="PickupControls['main_file_count'].invalid && (PickupControls['main_file_count'].touched || submitted)" class="invalid-feedback">
+            <div *ngIf="PickupControls['main_file_count'].hasError('main_file_count')">* Main File is required.</div>
+          </div>
+        </div>
+      
+        <!-- Collateral File Count Input -->
+        <div class="form-group" *ngIf="pickupForm.get('document_type').value === 'collateralFile'">
+          <label for="collateral_file_count">Collateral File (File Count)</label>
+          <input formControlName="collateral_file_count" type="number" class="form-control" placeholder="Collateral File"
+          [ngClass]="{'is-invalid': PickupControls['collateral_file_count'].invalid && (PickupControls['collateral_file_count'].touched || submitted)}">
+          <div *ngIf="PickupControls['collateral_file_count'].invalid && (PickupControls['collateral_file_count'].touched || submitted)" class="invalid-feedback">
+            <div *ngIf="PickupControls['collateral_file_count'].hasError('collateral_file_count')">* Collateral File is required.</div>
+          </div>
+        </div>
+      
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Save</button>
+      </form>
+      
+    </div>
+ 
+

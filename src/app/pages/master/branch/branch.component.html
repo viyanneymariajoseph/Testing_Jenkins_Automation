@@ -1,0 +1,605 @@
+<div class="header pb-6">
+  <div class="container-fluid" style="height: 60px;">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class="breadcrumb-item active">
+                Department Master
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="custom-tab-view">
+  <p-tabView>
+    <!-- Department Section starts -->
+    <p-tabPanel header="Department" [selected]="true">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="card adjust">
+              <!-- <div class="card-header d-flex justify-content-end align-items-center">
+                <a class="btn btn-sm btn-neutral btn-close-batch" (click)="addBranch(BranchFormPopup)">
+                  <i class="fa fa-plus"></i>
+                  <style>
+                  .btn-close-batch:hover {
+                  background-color: #ffc107 !important; /* Yellow */
+                  color: black !important;
+                  }
+
+                  </style>
+                  Add Department</a>
+              </div> -->
+              <div class="dataTables_wrapper checklist-table w-115">
+                <p-table #dt [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+                  [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first"
+                  (onPage)="paginate($event)" [loading]="loading"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                  <ng-template pTemplate="caption">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                        class="global-search search" />
+
+                      <div class="col-lg-6 col-5 text-right">
+                        <a class="btn btn-sm btn-neutral btn-close-batch" (click)="addBranch(BranchFormPopup)">
+                          <i class="fa fa-plus"></i>
+                          <style>
+                            .btn-close-batch:hover {
+                              background-color: #0A424A !important;
+                              /* Yellow */
+                              color: white !important;
+                            }
+                          </style>
+                          Add Department
+                        </a>
+                        <a class="btn btn-sm btn-neutral btn-close-batch" (click)="downloadCSV()">
+                          <i class="fa fa-download"></i>
+                          Download</a>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th *ngFor="let col of headerList; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+                        {{ col.header }}
+                        <p-sortIcon *ngIf="i == 10" [field]="col.field"></p-sortIcon>
+                      </th>
+                      <!-- <th style="width: 10%">ACTION</th> -->
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                    <tr>
+                      <td *ngFor="let col of headerList">
+                        {{ car[col.field] }}
+                      </td>
+                      <!-- ------------------------------ -->
+                      <!-- <td>
+                        <button type="button" tooltip="Edit Branch"
+                          style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                          class="btn btn-icon btn-icon-only" (click)="editBranch(BranchFormPopup, car)">
+                          <span class="btn-inner--icon"><i class="fa fa-pen"></i></span>
+                        </button>
+                        <button type="button" tooltip="Delete Branch"
+                          style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                          class="btn btn-icon btn-icon-only btn-danger" (click)="deleteDepartment(car)">
+                          <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+                        </button>
+                      </td> -->
+                      <!-- ---------------------------------------------- -->
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td [attr.colspan]="headerList.length + 1" class="p-0">
+                        <div class="d-flex justify-content-center align-items-center w-100" style="min-height: 200px;">
+                          <h2 class="text-gray mb-0">Oops!, no data to show</h2>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <!-- Department Section ends -->
+
+    <!-- Department Mapping Section starts -->
+    <p-tabPanel header="Department Mapping" [selected]="false">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="card adjust">
+              <!-- <div class="card-header d-flex justify-content-end align-items-center"> -->
+              <!-- <h3 class="mb-0">Department Mappings</h3> -->
+              <!-- <a class="btn btn-sm btn-neutral" (click)="addBranchMapping(BranchMappingFormPopup)">
+                  <i class="fa fa-plus"></i>
+                  Add Department Mapping</a>
+              </div> -->
+              <div class="dataTables_wrapper checklist-table w-100">
+                <p-table #dtt [paginator]="true" [rows]="10" [value]="formattedData1" [autoLayout]="true"
+                  [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first1"
+                  (onPage)="paginate($event)" [loading]="loading"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                  <ng-template pTemplate="caption">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <input type="text" pInputText size="50" placeholder="Search records"
+                        (input)="searchTable1($event)" class="global-search search" />
+
+                      <div class="col-lg-6 col-5 text-right">
+                        <!-- <h3 class="mb-0">Department Mappings</h3> -->
+                        <a class="btn btn-sm btn-neutral btn-close-batch"
+                          (click)="addBranchMapping(BranchMappingFormPopup)">
+                          <i class="fa fa-plus"></i>
+                          <style>
+                            .btn-close-batch:hover {
+                              background-color: #0A424A !important;
+                              /* Yellow */
+                              color: white !important;
+                            }
+                          </style>
+                          Add Department Mapping
+                        </a>
+                        <a class="btn btn-sm btn-neutral btn-close-batch" (click)="downloadCSVDeptMapping()">
+                          <i class="fa fa-download"></i>
+                          Download</a>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style="width: 10%">ACTION</th>
+                      <th *ngFor="let col of headerList1; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+                        {{ col.header }}
+                        <p-sortIcon *ngIf="i == 10" [field]="col.field"></p-sortIcon>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                    <tr>
+                      <td>
+                        <button type="button" tooltip="Edit Department Mapping"
+                          style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                          class="btn btn-icon btn-icon-only " (click)="editBranchMapping(EditMappingFormPopup, car)">
+                          <span class="btn-inner--icon"><i class="fa fa-pen"></i></span>
+                        </button>
+                        <button type="button" tooltip="Delete Department Mapping"
+                          style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+                          class="btn btn-icon btn-icon-only " (click)="deleteDepartmentMapping(car)">
+                          <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+                        </button>
+                      </td>
+                      <!-- <td *ngFor="let col of headerList1">
+                        {{ car[col.field] }}
+                      </td> -->
+                      <td *ngFor="let col of headerList1">
+                        <ng-container [ngSwitch]="col.field">
+
+                          <!-- When field is 'autoActivityApproval', show colored badges for each activity -->
+                          <span *ngSwitchCase="'autoActivityApproval'" class="status-pill" [ngClass]="{
+                                      'badge-success': car[col.field] === 'Inventory',
+                                      'status-retrieval': car[col.field] === 'Retrieval',
+                                      'badge-info': car[col.field] === 'Refilling'
+                                    }">
+                            {{ car[col.field] }}
+                          </span>
+
+                          <!-- Default: render normal text -->
+                          <span *ngSwitchDefault>
+                            {{ car[col.field] }}
+                          </span>
+                          <style>
+                            .status-pill {
+                              padding: 5px 12px;
+                              border-radius: 20px;
+                              font-weight: 500;
+                              font-size: 13px;
+                              display: inline-block;
+                              min-width: 80px;
+                              text-align: center;
+                              border: 1px solid transparent;
+                            }
+
+                            .status-inventory {
+                              color: #198754;
+                              background-color: #d1e7dd;
+                              border-color: #badbcc;
+                            }
+
+                            .status-retrieval {
+                              background-color: gray;
+                              /* Light red */
+                              color: white;
+                              /* Crimson red */
+                            }
+
+                            .status-refilling {
+                              background-color: #e6f7ff;
+                              /* Light blue */
+                              color: #004080;
+                              /* Dark blue */
+                            }
+                          </style>
+                        </ng-container>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td [attr.colspan]="headerList1.length + 1" class="p-0">
+                        <div class="d-flex justify-content-center align-items-center w-100" style="min-height: 200px;">
+                          <h2 class="text-gray mb-0">Oops!, no data to show</h2>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <!-- Department Mapping Section Ends -->
+  </p-tabView>
+</div>
+
+<ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <!-- <div class="card"> -->
+      <div class="card-header">
+        <h3 class="mb-0">
+          {{ isEditMode ? "Update Department" : "Add Department" }}
+        </h3>
+        <!-- </div> -->
+
+        <div class="card-body">
+          <form [formGroup]="AddBranchForm" (ngSubmit)="isEditMode ? onSubmitDepartment() : onSubmit()">
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="Branch">
+                  Department Name
+                </label>
+                <input class="form-control" id="Department Name" formControlName="DepartmentName"
+                  placeholder="Department Name" type="text" [ngClass]="{
+                    'is-invalid':
+                      FormControls['DepartmentName'].invalid &&
+                      (FormControls['DepartmentName'].touched || submitted)
+                  }" />
+                <div *ngIf="
+                    FormControls['DepartmentName'].invalid &&
+                    (FormControls['DepartmentName'].touched || submitted)
+                  " class="invalid-feedback">
+                  <div *ngIf="FormControls['DepartmentName'].hasError('required')">
+                    *Department Name is required.
+                  </div>
+                  <div *ngIf="
+                      FormControls['DepartmentName'].hasError('whitespace')
+                    ">
+                    * Department Name cannot be blank or just spaces.
+                  </div>
+                  <div
+                    *ngIf="FormControls['DepartmentName'].hasError('onlyNumber') || FormControls['DepartmentName'].hasError('specialCharacterNotAllowed')">
+                    * Department Name cannot be only numbers or contain special characters.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12 mb-3">
+                <label class="form-control-label" for="Branch">
+                  Department Code
+                </label>
+                <input class="form-control" formControlName="DepartmentCode" placeholder="Department Code" type="text"
+                  [ngClass]="{
+                    'is-invalid':
+                      FormControls['DepartmentCode'].invalid &&
+                      (FormControls['DepartmentCode'].touched || submitted)
+                  }" />
+                <div *ngIf="
+                    FormControls['DepartmentCode'].invalid &&
+                    (FormControls['DepartmentCode'].touched || submitted)
+                  " class="invalid-feedback">
+                  <div *ngIf="FormControls['DepartmentCode'].hasError('required')">
+                    * Department Code is required.
+                  </div>
+                  <div *ngIf="
+                      FormControls['DepartmentCode'].hasError('whitespace')
+                    ">
+                    * Department Code cannot be blank or just spaces.
+                  </div>
+                  <div
+                    *ngIf="FormControls['DepartmentCode'].hasError('onlyNumber') || FormControls['DepartmentCode'].hasError('specialCharacterNotAllowed')">
+                    * Department Code cannot be only numbers or contain special characters.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-outline-success" type="submit" [disabled]="AddBranchForm.invalid">
+              Submit
+            </button>
+            <button type="button" class="btn btn-outline-danger" (click)="OnReset()">
+              Close
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #BranchMappingFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <!-- <div class="card"> -->
+      <div class="card-header">
+        <h3 class="mb-0">
+          Add Department Mapping
+        </h3>
+        <!-- </div> -->
+
+        <div class="card-body">
+          <form class="needs-validation" [formGroup]="AddBranchMappingForm" (ngSubmit)="onSubmit1()" novalidate>
+
+
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label d-block" for="autoActivityApproval">Activity</label>
+
+                <select class="form-select" id="autoActivityApproval" formControlName="autoActivityApproval"
+                  (change)="onActivityChange()">
+                  <option value="">-- Select Activity --</option>
+                  <!-- <option value="All">All</option> -->
+                  <option value="Inventory">Inventory</option>
+                  <option value="Retrieval">Retrieval</option>
+                  <option value="Refilling">Refilling</option>
+                </select>
+
+                <div *ngIf="
+        AddBranchMappingForm.get('autoActivityApproval')?.touched &&
+        AddBranchMappingForm.get('autoActivityApproval')?.invalid
+      " class="text-danger mt-1">
+                  Activity is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="UserID">User</label>
+                <select class="form-select" formControlName="UserID" id="UserID" (change)="onUserChange($event)">
+                  <option value="">--Select User--</option>
+                  <option *ngFor="let _User of _UserL" [value]="_User.id">
+                    {{ _User.userid }}
+                  </option>
+                </select>
+                <div *ngIf="
+      AddBranchMappingForm.get('UserID')?.touched &&
+      AddBranchMappingForm.get('UserID')?.invalid
+    " class="text-danger">
+                  User is required.
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label d-block" for="approvalYes">Auto Approval</label>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="approvalYes" value="yes"
+                    formControlName="approval" />
+                  <label class="form-check-label" for="approvalYes">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="approvalNo" value="no"
+                    formControlName="approval" />
+                  <label class="form-check-label" for="approvalNo">No</label>
+                </div>
+
+                <div *ngIf="
+                    AddBranchMappingForm.get('approval')?.touched &&
+                    AddBranchMappingForm.get('approval')?.invalid
+                  " class="text-danger mt-1">
+                  Approval is required.
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group" style="position: relative;" #dropdownContainer>
+              <label class="form-control-label mb-1">Select Department</label>
+
+              <!-- Trigger box -->
+              <div class="form-control" style="cursor: pointer;" (click)="toggleDropdown($event)">
+                {{ selectedDepartmentsLabel || '-- Select Department --' }}
+              </div>
+
+              <!-- Dropdown content -->
+              <div *ngIf="showDropdown" class="dropdown-panel" (click)="$event.stopPropagation()">
+
+
+                <!-- Select All department -->
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="selectAllDepartments" [checked]="isAllSelected"
+                    [disabled]="selectedDepartmentId !== null" (change)="toggleSelectAll($event)" />
+                  <label class="form-check-label" for="selectAllDepartments">Select All</label>
+                </div>
+                <!-- Select All department ends-->
+
+                <div class="form-check" *ngFor="let dept of departmentList">
+                  <input class="form-check-input" type="checkbox" [value]="dept.Id" [id]="'dept_' + dept.Id"
+                    (change)="onCheckboxChange($event)" [checked]="isChecked(dept.Id)"
+                    [disabled]="originalMappedDepartments.includes(dept.Id) && dept.Id !== selectedMappedDepartmentId" />
+                  <label class="form-check-label" [for]="'dept_' + dept.Id">{{ dept.DepartmentName }}</label>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+            <div class="mt-3">
+              <button class="btn btn-outline-success" type="submit" [disabled]="AddBranchMappingForm.invalid">
+                Submit
+              </button>
+              <button type="button" class="btn btn-outline-danger" (click)="OnReset()">
+                Close
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- edit -->
+<ng-template #EditMappingFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <!-- <div class="card"> -->
+      <div class="card-header">
+        <h3 class="mb-0">
+          Update Department Mapping
+        </h3>
+        <!-- </div> -->
+
+        <div class="card-body">
+          <form class="needs-validation" [formGroup]="AddBranchMappingForm" (ngSubmit)="onSubmit1()" novalidate>
+
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="UserID">User</label>
+                <select class="form-select" formControlName="UserID" id="UserID"
+                  (change)="getBranchForUser($event.target.value)">
+                  <option [ngValue]="null" disabled selected>--Select User--</option>
+                  <option *ngFor="let _User of _UserL" [value]="_User.id">
+                    {{ _User.userid }}
+                  </option>
+                </select>
+                <div *ngIf="
+                    AddBranchMappingForm.get('UserID')?.touched &&
+                    AddBranchMappingForm.get('UserID')?.invalid
+                  " class="text-danger">
+                  User is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label d-block" for="autoActivityApproval">Activity</label>
+
+                <select class="form-control" id="autoActivityApproval" formControlName="autoActivityApproval"
+                  (change)="onActivityChange()" disabled>
+                  <option value="">-- Select Activity --</option>
+                  <option value="Inventory">Inventory</option>
+                  <option value="Retrieval">Retrieval</option>
+                  <option value="Refilling">Refilling</option>
+                </select>
+
+                <div *ngIf="
+        AddBranchMappingForm.get('autoActivityApproval')?.touched &&
+        AddBranchMappingForm.get('autoActivityApproval')?.invalid
+      " class="text-danger mt-1">
+                  Activity approval is required.
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label d-block" for="approvalYes">Auto Approval</label>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="approvalYes" value="yes"
+                    formControlName="approval" />
+                  <label class="form-check-label" for="approvalYes">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="approvalNo" value="no"
+                    formControlName="approval" />
+                  <label class="form-check-label" for="approvalNo">No</label>
+                </div>
+
+                <div *ngIf="
+                    AddBranchMappingForm.get('approval')?.touched &&
+                    AddBranchMappingForm.get('approval')?.invalid
+                  " class="text-danger mt-1">
+                  Approval is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label mb-1">Department</label>
+              <input class="form-control" type="text" [value]="selectedDepartmentName" readonly />
+            </div>
+
+
+
+            <div class="mt-3">
+              <button class="btn btn-outline-success" type="submit" [disabled]="AddBranchMappingForm.invalid">
+                Submit
+              </button>
+              <button type="button" class="btn btn-outline-danger" (click)="OnReset()">
+                Close
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-template>
+<!-- edit -->
+
+<style>
+  .custom-tab-view {
+    width: 95% !important;
+    margin-left: 15px;
+    margin-top: -70px;
+  }
+
+  .adjust {
+    width: 93vw !important;
+    margin-left: -15px;
+  }
+
+
+  .dropdown-panel {
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 2px;
+  }
+</style>

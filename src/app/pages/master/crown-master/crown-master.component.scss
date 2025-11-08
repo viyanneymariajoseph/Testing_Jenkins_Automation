@@ -1,0 +1,30 @@
+::ng-deep .custom-ng-select .ng-dropdown-panel {
+  max-height: 150px !important; /* Set fixed dropdown height */
+  overflow-y: auto !important;
+}
+.btn-close-batch:hover {
+background-color: #0A424A !important; /* Yellow */
+color: white !important;
+}
+    .status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  min-width: 70px;
+}
+
+.active-status {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.inactive-status {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}

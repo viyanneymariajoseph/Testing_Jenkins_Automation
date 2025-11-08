@@ -1,0 +1,344 @@
+<div class="header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">Email Notifications</h6> -->
+
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+            <ol class=" breadcrumb">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> Email Notifications </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class=" col-lg-6 col-5 text-right">
+          <!-- <a class=" btn btn-sm btn-neutral" (click)="addBranch(BranchFormPopup)">Add New</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <!-- <div class=" card-header">
+          <h3 class=" mb-0"></h3>
+          <p class=" text-sm mb-0"></p>
+        </div> -->
+        <div class="dataTables_wrapper checklist-table w-100">
+
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+
+              <div class="d-flex justify-content-between align-items-center">
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search search">
+
+                <div class="col-lg-6 col-5 text-right">
+                  <a class="btn btn-sm btn-neutral btn-close-batch" (click)="addBranch(BranchFormPopup)">
+                    <i class="fa fa-plus"></i>&nbsp;Add New
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3%;">
+                  ACTION
+                </th>
+                <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '3%'}">
+                  {{col.header}}
+                  <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                </th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td>
+                  <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-icon-only"
+                    (click)="editBranch(BranchFormPopup,car)">
+                    <span class="btn-inner--icon"><i class="fa fa-pen"></i></span>
+                  </button>
+                  <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only"
+                    (click)="deleteBrnach(car.id)">
+                    <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                  </button>
+
+                </td>
+                <td *ngFor="let col of headerList">
+                  {{car[col.field]}}
+                </td>
+
+
+
+
+
+
+              </tr>
+            </ng-template>
+          </p-table>
+
+
+        </div>
+
+        <!-- <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="10" [selected]="entries == 10">10</option>
+                      <option value="25" [selected]="entries == 25">25</option>
+                      <option value="50" [selected]="entries == 50">50</option>
+                      <option value="-1" [selected]="entries == -1">All</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Search records"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+  
+            <ngx-datatable
+            *ngIf="_FilteredList"
+              class="material"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="_FilteredList"
+              (activate)="onActivate($event)"
+            >
+              <ngx-datatable-column name="SrNo">
+                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Branch">
+                <ng-template let-row="row" ngx-datatable-cell-template>{{row.BranchName}}</ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Cabinet">
+                <ng-template let-row="row" ngx-datatable-cell-template>{{row.DepartmentName}}</ng-template>
+              </ngx-datatable-column>
+              
+              <ngx-datatable-column name="Action" sortable="false" prop="id">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-warning btn-icon-only rounded-circle" (click)="editBranch(BranchFormPopup,row)">
+                    <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                  </button>
+                  <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only rounded-circle" (click)="deleteBrnach(value)">
+                    <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                  </button>
+            </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div> -->
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content custom-modal-width mr-4">
+
+    <div class="modal-body p-0">
+      <!-- <div class=" card"> -->
+      <div class=" card-header">
+        <h3 class=" mb-0">{{FormText}}</h3>
+        <!-- <h3 class=" mb-0">Email Notifications</h3> -->
+        <!-- </div> -->
+
+        <div class="card-body">
+          <form [formGroup]="AddBranchForm" (ngSubmit)="onSubmit()">
+
+
+            <div class="form-row">
+
+              <!-- Activity (Service Type) -->
+
+              <!-- <div class="form-group col-md-6 ">
+                <label class="form-control-label">Activity <span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="service_type"
+                  [ngClass]="{'is-invalid': FormControls['service_type'].invalid && (FormControls['service_type'].touched || submitted)}">
+                  <option value="" selected disabled>--Select--</option>
+                  <option value="Inventroy"> Inventroy</option>
+                  <option value="Carton Inventroy"> Carton Inventroy</option>
+                  <option value="Inventroy Approval"> Inventroy Approval</option>
+                  <option value="Pickup Schedule"> Pickup Schedule</option>
+                  <option value="Pickup Schedule"> Inventroy Acknowledge</option>
+                  <option value="Pickup Schedule"> Inventroy Acknowledge</option>
+                  <option value="Carton Storage"> Carton Storage</option>
+                  <option value="Retrieval Request"> Retrieval Request </option>
+                  <option value="Request Approval"> Request Approval </option>
+                  <option value="Retrieval Dispatch"> Retrieval Dispatch </option>
+                  <option value="Retrieval Acknowledge"> Retrieval Acknowledge </option>
+
+                  <option value="Send To Storage"> Send To Storage </option>
+                  <option value="Return Approval"> Return Approval </option>
+                  <option value="Return Pickup Schedule "> Return Pickup Schedule </option>
+                  <option value="Return Acknowledgement"> Return Acknowledgement </option>
+                  <option value="Carton Location Update"> Carton Location Update </option>
+                </select>
+                <div *ngIf="FormControls['service_type'].invalid && (FormControls['service_type'].touched || submitted)"
+                  class="invalid-feedback">
+                  * Service Type is required.
+                </div>
+              </div> --><!-- Activity Dropdown -->
+              <div class="form-group col-md-6">
+                <label class="form-control-label">Activity <span class="text-danger">*</span></label>
+                <ng-select [items]="activityTypes" bindLabel="label" bindValue="value" formControlName="activity_type"
+                  class="custom-ng-select"
+                  [placeholder]="AddBranchForm.controls['activity_type'].value ? '' : '--Select Activity--'"
+                  [appendTo]="'body'" [dropdownPosition]="'auto'" (change)="onActivityChange($event)" [ngClass]="{
+                 'is-invalid': FormControls['activity_type'].invalid &&
+                 (FormControls['activity_type'].touched || submitted)
+                 }">
+                  <!-- REMOVE THE ARROW FROM DROPDOWN LIST ITEMS -->
+                  <ng-template ng-option-tmp ng-arrow-wrapper let-item="item">
+                    {{ item.label }}
+                  </ng-template>
+                </ng-select>
+
+
+                <div
+                  *ngIf="FormControls['activity_type'].invalid && (FormControls['activity_type'].touched || submitted)"
+                  class="invalid-feedback">
+                  * Activity is required.
+                </div>
+              </div>
+
+              <!-- Sub-Activity Dropdown -->
+              <div class="form-group col-md-6" [attr.data-bs-toggle]="showSubActivityTooltip ? 'tooltip' : null"
+                [attr.title]="showSubActivityTooltip ? 'Now select the Sub Activity' : null"
+                [ngClass]="{ 'tooltip-pointer': showSubActivityTooltip }">
+
+                <label class="form-control-label">Sub Activity <span class="text-danger">*</span></label>
+                <ng-select class="custom-ng-select" [items]="serviceTypes" bindLabel="label" bindValue="value"
+                  [placeholder]="AddBranchForm.controls['service_type'].value ? '' : '--Select Sub Activity--'"
+                  formControlName="service_type" [appendTo]="'body'" [dropdownPosition]="'auto'" [ngClass]="{
+               'is-invalid': FormControls['service_type'].invalid &&
+               (FormControls['service_type'].touched || submitted)
+             }">
+                </ng-select>
+                <div *ngIf="FormControls['service_type'].invalid && (FormControls['service_type'].touched || submitted)"
+                  class="invalid-feedback">
+                  * Sub Activity is required.
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="form-row">
+              <!-- TO -->
+              <!-- <div class="form-group col-md-6">
+                <label class="form-control-label">To Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="to_email_id"
+                  placeholder="Enter To Email IDs (comma-separated)"
+                  [ngClass]="{'is-invalid': FormControls['to_email_id'].invalid && (FormControls['to_email_id'].touched || submitted)}">
+                <div *ngIf="FormControls['to_email_id'].invalid && (FormControls['to_email_id'].touched || submitted)"
+                  class="invalid-feedback">
+                  * Valid To Email is required.
+                </div>
+              </div> -->
+
+
+              <!-- CC -->
+              <!-- <div class="form-group col-md-6 mb-3">
+                <label class="form-control-label">CC</label>
+                <input type="email" class="form-control" formControlName="cc_email_id"
+                  placeholder="Enter CC Emails (comma-separated)"
+                  [ngClass]="{'is-invalid': FormControls['cc_email_id'].invalid && (FormControls['cc_email_id'].touched || submitted)}">
+
+                <div *ngIf="FormControls['cc_email_id'].invalid && (FormControls['cc_email_id'].touched || submitted)"
+                  class="invalid-feedback">
+                  * CC email addresses are invalid.
+                </div>
+              </div> -->
+
+
+              <!-- BCC -->
+              <!-- <div class="form-group col-md-6 mb-3">
+                <label class="form-control-label">BCC</label>
+                <input type="email" class="form-control" formControlName="bcc_email_id"
+                  placeholder="Enter BCC Emails (comma-separated)">
+              </div> -->
+              <!-- Subject -->
+              <div class="form-group col-md-12 mb-3">
+                <label class="form-control-label">Subject <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="subject" placeholder="Enter Subject"
+                  [ngClass]="{'is-invalid': FormControls['subject'].invalid && (FormControls['subject'].touched || submitted)}">
+                <div *ngIf="FormControls['subject'].invalid && (FormControls['subject'].touched || submitted)"
+                  class="invalid-feedback">
+                  * Subject is required.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+
+
+              <!-- Body -->
+              <div class="form-group col-md-12 mb-3">
+                <label class="form-control-label">Body</label>
+                <textarea class="form-control" formControlName="body" placeholder="Enter Email Body"
+                  rows="4"></textarea>
+              </div>
+
+            </div>
+
+
+            <div class="text-right mt-3">
+              <button type="button" class="btn btn-secondary btn-sm mr-2" (click)="OnReset()">
+                <i class="fa fa-times mr-1"></i> Close
+              </button>
+
+              <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fa fa-paper-plane mr-1"></i> Submit
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-template>

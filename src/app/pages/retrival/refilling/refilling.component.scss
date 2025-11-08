@@ -1,0 +1,27 @@
+.menu_btn{
+    background: none;
+    border: none;
+}
+::ng-deep .modal-dialog {
+    max-width: 1000px !important; 
+}
+.card{
+   margin-bottom: 0;
+}
+input[type=checkbox] {
+   width: 25px;
+   height: 25px;
+}
+
+body .ui-widget{
+    font-size: 12px !important;
+  }
+  .btn-icon-only{
+    width: 1.5rem;
+  }
+  .btn-icon-only i {
+    font-size:10px
+  }
+  .no-wrap-text {
+    white-space: nowrap;
+  }

@@ -1,0 +1,222 @@
+<br />
+<br /><br /><br /><br />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="retrieval_add_form">
+          <form class="needs-validation p-4" [formGroup]="AddFileInwardForm">
+            <div class="row mb-3 align-items-center">
+              <div class="col-2">
+                <label for="BatchID">Batch ID</label>
+              </div>
+              <div class="col-2">
+                <input name="appl" type="text" readonly placeholder="Document Type" type="text" class="form-control"
+                  formControlName="batchId" />
+                <div *ngIf="
+                      FormControls['batchId'].invalid &&
+                      (FormControls['batchId'].touched || submitted)
+                    " class="invalid-feedback">
+                  <div *ngIf="FormControls['batchId'].hasError('required')">
+                    * Branch Code is required.
+                  </div>
+                </div>
+                <!-- </div> -->
+              </div>
+
+              <div class="col-2">
+                <label for="BatchID">Department Name</label>
+              </div>
+              <div class="col-2">
+                <select formControlName="department" class="form-control form-select"
+                  (change)="onDepartmentChange($event)" [ngClass]="{
+    'is-invalid':
+      FormControls['department'].invalid &&
+      (FormControls['department'].touched || submitted)
+  }">
+                  <option value="" disabled selected>--Select--</option>
+                  <option *ngFor="let i of departmentDropdown" [value]="i.value">
+                    {{ i.label }}
+                  </option>
+                </select>
+
+                <div *ngIf="
+                      FormControls['department'].invalid &&
+                      (FormControls['department'].touched || submitted)
+                    " class="invalid-feedback">
+                  <div *ngIf="
+                        FormControls['department'].hasError('required')
+                      ">
+                    *Required.
+                  </div>
+                </div>
+                <!-- </div> -->
+              </div>
+              <!-- <div class="row mb-3"> -->
+              <div class="col-auto">
+                <label for="BatchID">Carton No.</label>
+              </div>
+              <div class="col-auto">
+                <input name="appl" type="text" placeholder="Enter Carton No." formControlName="cartonNo" type="text"
+                  class="form-control form-control" [ngClass]="{
+                      'is-invalid':
+                        FormControls['cartonNo'].invalid &&
+                        (FormControls['cartonNo'].touched || submitted)
+                    }" />
+                <div *ngIf="
+                      FormControls['cartonNo'].invalid &&
+                      (FormControls['cartonNo'].touched || submitted)
+                    " class="invalid-feedback">
+                  <div *ngIf="FormControls['cartonNo'].hasError('required')">
+                    *Required.
+                  </div>
+                  <div *ngIf="FormControls['cartonNo'].hasError('noSpace')">
+                    *Space are not allowed.
+                  </div>
+                  <div *ngIf="FormControls['cartonNo'].hasError('invalidCharacters')">
+                    * Only letters, numbers , except commas(,) all special char are allowed.
+                  </div>
+
+
+
+                </div>
+                <!-- </div> -->
+              </div>
+
+            </div>
+            <!-- <div class="form-row mt-4">  -->
+            <div class="row mb-3">
+              <div class="col-2">
+                <label for="BatchID">Document Type</label>
+              </div>
+              <div class="col-2">
+                <select formControlName="documentType" class="form-control form-select " [ngClass]="{
+                      'is-invalid':
+                        FormControls['documentType'].invalid &&
+                        (FormControls['documentType'].touched || submitted)
+                    }" (change)="onSelectDocument()">
+                  <option value="" disabled selected>--Select--</option>
+                  <option *ngFor="let i of documentTypeDropdown" value="{{ i.value }}">
+                    {{ i.label }}
+                  </option>
+                </select>
+                <div *ngIf="
+                      FormControls['documentType'].invalid &&
+                      (FormControls['documentType'].touched || submitted)
+                    " class="invalid-feedback">
+                  <div *ngIf="FormControls['documentType'].hasError('required')">
+                    * Required.
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+              <!-- <div class="row mb-4"> -->
+              <div class="col-2">
+                <!-- <div class="form-group"> -->
+                <label for="service_type">Detail Document Type</label>
+              </div>
+              <div class="col-2">
+                <select formControlName="detailDocumentType" class="form-control form-select" [ngClass]="{
+          'is-invalid': FormControls['detailDocumentType'].invalid &&
+                        (FormControls['detailDocumentType'].touched || submitted)
+        }">
+                  <option value="" disabled selected>--Select--</option>
+                  <option *ngFor="let i of document_id" [value]="i.id">
+                    {{ i.name }}
+                  </option>
+                </select>
+
+                <!-- <p-multiSelect [options]="document_id" class="custom-multiselect-style"
+                  formControlName="detailDocumentType" optionLabel="name" placeholder="Select Details Document"
+                  [ngClass]="{'is-invalid': FormControls['detailDocumentType'].invalid && (FormControls['detailDocumentType'].touched || submitted)}"></p-multiSelect>
+                 -->
+
+
+                <!-- <select
+                    formControlName="detailDocumentType"
+                    class="form-select"
+                    [ngClass]="{
+                      'is-invalid':
+                        FormControls['detailDocumentType'].invalid &&
+                        (FormControls['detailDocumentType'].touched ||
+                          submitted)
+                    }"
+                  >
+                    <option value="" disabled selected>--Select--</option>
+                    <option value="Fresh">Fresh File</option>
+                    <option value="Insertion">Insertion File</option>
+                  </select> -->
+                <div *ngIf="
+                      FormControls['detailDocumentType'].invalid &&
+                      (FormControls['detailDocumentType'].touched || submitted)
+                    " class="invalid-feedback">
+                  <div *ngIf="
+                        FormControls['detailDocumentType'].hasError('required')
+                      ">
+                    * Required.
+                  </div>
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
+            <!-- </div> -->
+            <div class="float-right pb-3">
+              <a class="btn btn-outline-success" (click)="SaveData()" [class.disabled]="AddFileInwardForm.invalid"
+                [attr.aria-disabled]="AddFileInwardForm.invalid"
+                [style.pointer-events]="AddFileInwardForm.invalid ? 'none' : 'auto'">
+                Save
+              </a> <a class="btn btn-outline-primary" (click)="onSubmit()">Back</a>
+              <a class="btn btn-outline-info" (click)="OnReset()">Reset</a>
+              <a class="btn btn-outline-danger" (click)="CloseRequest()"
+                [class.disabled]="!formattedData || formattedData.length === 0"
+                [attr.aria-disabled]="!formattedData || formattedData.length === 0"
+                [style.pointer-events]="!formattedData || formattedData.length === 0 ? 'none' : 'auto'">
+                Close Batch
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- [disabled]="formattedData.length == 0" -->
+<div class="container-fluid mt--3">
+  <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+    <ng-template pTemplate="caption">
+      <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+        class="global-search search" />
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- ACTION column first -->
+        <th style="width: 5%; white-space: nowrap">ACTION</th>
+
+        <!-- Then your dynamic headers -->
+        <th *ngFor="let col of headerList; let i = index" [ngStyle]="i == 0 && { width: '5%' }">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+      <tr>
+        <!-- ACTION button first -->
+        <td style="white-space: nowrap">
+          <button type="button" style="padding:0 0 5px 4px; border-radius: 50%; background-color: white;"
+            class="btn btn-icon btn-icon-only" (click)="DeleteRecord(car)">
+            <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+          </button>
+        </td>
+
+        <!-- Then dynamic values -->
+        <td *ngFor="let col of headerList">
+          {{ car[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>

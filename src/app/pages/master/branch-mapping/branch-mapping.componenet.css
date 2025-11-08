@@ -1,0 +1,9 @@
+.list-group-item {
+    margin-bottom: -28px;  
+}
+body .ui-multiselect {
+    background: #ffffff;
+    border: 1px solid #a6a6a6;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100% !important;
+}

@@ -1,0 +1,115 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                Warehouse Location Report
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- ...existing code... -->
+        <div class="card-header">
+          <form [formGroup]="RefillingReportForm">
+            <div class="d-flex align-items-center flex-wrap px-1" style="gap: 8px;">
+              <!-- Warehouse Label + Dropdown -->
+              <div class="d-flex align-items-center">
+                <label class="me-2 mb-0 text-dark">Warehouse Location</label>
+                <select class="form-select form-control me-2" formControlName="SearchBy" style="width: 250px;">
+                  <option value="" disabled selected>-- Select --</option>
+                  <option value="0">ALL</option>
+                  <option *ngFor="let warehouse of WarehouseList" [value]="warehouse.WarehouseName">
+                    {{ warehouse.WarehouseName }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Buttons moved closer -->
+              <div class="d-flex align-items-center" style="gap: 6px;">
+                <button class="btn btn-sm btn-neutral btn-yellow-hover" (click)="GetSearchedData()"
+                  [disabled]="!RefillingReportForm.get('SearchBy')?.value">
+                  Search
+                </button>
+
+                <button type="button" class="btn btn-sm btn-neutral btn-grey-hover" (click)="downloadXlsxVisible()"
+                  [ngStyle]="!formattedData?.length ? { opacity: 0.6, cursor: 'not-allowed' } : {}">
+                  Download
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+        <!-- ...existing code... -->
+
+        <div class="dataTables_wrapper py-4 checklist-table">
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, 100]" [(first)]="first"
+            (onPage)="paginate($event)" [loading]="loading" style="text-wrap: nowrap;"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              <div class="d-flex justify-content-between">
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search search form-control" />
+                <!-- <p-multiSelect [options]="headerList" [(ngModel)]="selectedColumns"
+                  [ngModelOptions]="{ standalone: true }" class="p-multiSelect" optionLabel="header" [filter]="true"
+                  placeholder="Select Columns Hide/UnHide" [maxSelectedLabels]="1"
+                  selectedItemsLabel="{0} Table columns selected">
+                </p-multiSelect> -->
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th *ngFor="let col of selectedColumns; let i = index" [ngStyle]="i == 0 && { width: '7%' }"
+                  style="white-space: nowrap">
+                  {{ col.header }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of selectedColumns" style="white-space: nowrap">
+                  {{ car[col.field] }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<style>
+  .btn-sm.btn-neutral {
+    background: #fff;
+    color: #005984;
+    padding: 10px 15px;
+    border: 1px solid #005984;
+  }
+
+  .btn-sm.btn-neutral:hover {
+    color: #005984;
+    background-color: #fff;
+  }
+</style>

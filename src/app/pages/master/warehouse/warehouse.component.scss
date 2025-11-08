@@ -1,0 +1,21 @@
+.btn-close-batch:hover {
+background-color: #0A424A !important; /* Yellow */
+color: white !important;
+}
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 13px;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+ 
+.status-approved {
+  color: #198754;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}  
+     

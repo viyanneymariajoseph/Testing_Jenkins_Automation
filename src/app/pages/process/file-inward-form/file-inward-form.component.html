@@ -1,0 +1,256 @@
+<br>
+<br><br><br><br>
+<div class=" container-fluid">
+    <div class=" row">
+        <div class=" col">
+            <div class="card px-4 py-2">
+                <div class="form-row">
+                    <div class="col" style="flex: 2.5;">
+                        <label class="form-control-label" for="BatchID">REQUEST NO</label>
+                        <div class="">
+                            <input name="appl" type="text" readonly placeholder="Document Type" type="text"
+                                class="form-control form-control-md" [value]="AllData?.request_id" />
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 2.5;">
+                        <label class="form-control-label" for="BatchID">SERVICE TYPE</label>
+                        <div class="">
+                            <input type="text" [value]="AllData?.service_type" readonly placeholder="Service Type"
+                                type="text" class="form-control form-control-md" />
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 2.5;">
+                        <label class="form-control-label" for="BatchID">DOCUMENT TYPE</label>
+                        <div class="">
+                            <input name="appl" type="text" [value]="AllData?.document_type" readonly
+                                placeholder="Document Type" type="text" class="form-control form-control-md">
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 2.5;">
+                        <label class="form-control-label" for="BatchID">MAIN FILE COUNT</label>
+                        <div class="">
+                            <input name="appl" type="text" [value]="AllData?.main_file_count" readonly type="text"
+                                class="form-control form-control-md" />
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 2.5;">
+                        <label class="form-control-label" for="BatchID">COLLATERAL FILE COUNT</label>
+                        <div class="">
+                            <input name="appl" type="text" [value]="AllData?.collateral_file_count" readonly type="text"
+                                class="form-control form-control-md" />
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class=" card">
+                <div class="retrieval_add_form">
+                    <form class="needs-validation p-4" [formGroup]="AddFileInwardForm">
+                        <div class="form-row">
+
+                            <div class=" col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label for="service_type">Service Type</label>
+                                    <select formControlName="service_type" class="form-select"
+                                        [ngClass]="{'is-invalid': FormControls['service_type'].invalid && (FormControls['service_type'].touched || submitted)}"
+                                        (change)="onServiceTypeChange($event.target.value)">
+                                        <option value="" disabled selected>--Select--</option>
+                                        <option value="Fresh">Fresh File</option>
+                                        <option value="Insertion">Insertion File</option>
+                                    </select>
+                                    <div *ngIf="FormControls['document_type'].invalid && (FormControls['document_type'].touched || submitted)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="FormControls['document_type'].hasError('required')">* Document Type
+                                            is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label for="document_type">Document Type</label>
+                                    <select formControlName="document_type" class="form-select"
+                                        [ngClass]="{'is-invalid': FormControls['document_type'].invalid && (FormControls['document_type'].touched || submitted)}">
+                                        <option value="" disabled selected>--Select--</option>
+                                        <option value="Main File">Main File</option>
+                                        <option value="Collateral File">Collateral File</option>
+
+                                    </select>
+                                    <div *ngIf="FormControls['document_type'].invalid && (FormControls['document_type'].touched || submitted)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="FormControls['document_type'].hasError('required')">* Document Type
+                                            is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="appl">Carton No</label>
+                                <input name="appl" type="text" formControlName="carton_no" placeholder="Carton No"
+                                    type="text" class="form-control form-control-md"
+                                    [attr.readonly]="isReadOnly ? true : null"
+                                    [ngClass]="{'is-invalid': FormControls['carton_no'].invalid && (FormControls['carton_no'].touched || submitted)}" />
+                                <div *ngIf="FormControls['carton_no'].invalid && (FormControls['carton_no'].touched || submitted)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="FormControls['carton_no'].hasError('required')">* Carton No is required.
+                                    </div>
+                                    <div *ngIf="FormControls['carton_no'].hasError('maxlength')">* Maximum length is 7
+                                        characters.</div>
+                                    <div *ngIf="FormControls['carton_no'].hasError('minlength')">* Minimum length is 7
+                                        characters.</div>
+                                    <div *ngIf="FormControls['carton_no'].hasError('pattern')">* Special Characters are
+                                        not allowed.</div>
+                                </div>
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class="form-control-label" for="BatchID">Lan No</label>
+                                <div class="">
+                                    <input type="text" name="BatchNo" formControlName="lan_no" placeholder="Lan No"
+                                        (change)="GetLanDetails($event)" class="form-control form-control-md"
+                                        [ngClass]="{'is-invalid':  FormControls['lan_no'].invalid && (FormControls['lan_no'].touched || submitted)}" />
+                                    <div *ngIf="FormControls['lan_no'].invalid && (FormControls['lan_no'].touched || submitted)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="FormControls['lan_no'].hasError('required')">* Lan No is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-control-label" for="file_no">File Barcode</label>
+
+                                <ng-container
+                                    *ngIf="AddFileInwardForm.get('service_type')?.value === 'Insertion'; else textInput">
+                                    <select formControlName="file_no" class="form-select"
+                                        [ngClass]="{'is-invalid': FormControls['file_no'].invalid && (FormControls['file_no'].touched || submitted)}">
+                                        <option value="" disabled selected>--Select File Barcode--</option>
+                                        <option *ngFor="let file of fileBarcodeList" [value]="file">{{ file }}</option>
+                                    </select>
+                                </ng-container>
+
+                                <ng-template #textInput>
+                                    <input name="file_no" type="text" class="form-control form-control-md"
+                                        formControlName="file_no" placeholder="File Barcode"
+                                        [ngClass]="{'is-invalid': FormControls['file_no'].invalid && (FormControls['file_no'].touched || submitted)}"
+                                        [attr.readonly]="isReadOnly ? true : null" />
+                                    <div *ngIf="FormControls['file_no'].invalid && (FormControls['file_no'].touched || submitted)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="FormControls['file_no'].hasError('required')">* File Barcode is
+                                            required.</div>
+                                        <div *ngIf="FormControls['file_no'].hasError('maxlength')">* Maximum length is
+                                            10 characters.</div>
+                                        <div *ngIf="FormControls['file_no'].hasError('minlength')">* Minimum length is
+                                            8 characters.</div>
+                                        <div *ngIf="FormControls['file_no'].hasError('pattern')">* Special Characters
+                                            are not allowed.</div>
+                                    </div>
+                                </ng-template>
+                            </div>
+
+
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="document_type">Loan Type</label>
+                                <input readonly name="secured_unsecured" type="text"
+                                    class="form-control form-control-md" [value]="AllLanData?.secured_unsecured" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="appl">Zone Name</label>
+                                <input readonly name="zone_name" type="text" type="text"
+                                    class="form-control form-control-md" [value]="AllLanData?.zone_name" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="document_type">Branch Name</label>
+                                <input readonly name="branch_name" [value]="AllLanData?.branch_name" type="text"
+                                    class="form-control form-control-md" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="product">Branch Code</label>
+                                <input readonly name="app_branch_code" [value]="AllLanData?.app_branch_code" type="text"
+                                    class="form-control form-control-md" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="location">Disbursement Date</label>
+                                <input readonly name="disb_date" [value]="AllLanData?.disb_date" type="text"
+                                    class="form-control form-control-md" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="sub_lcoation">Applicant Name</label>
+                                <input readonly name="applicant_name" [value]="AllLanData?.applicant_name
+                                " type="text" class="form-control form-control-md" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="maln_party_id">Scheme Name</label>
+                                <input readonly name="scheme_name" [value]="AllLanData?.scheme_name
+                                " type="text" class="form-control form-control-md" />
+                            </div>
+                            <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="party_name">SMEMEL Product</label>
+                                <input readonly name="smemel_product" [value]="AllLanData?.smemel_product" type="text"
+                                    class="form-control form-control-md" />
+                            </div>
+                            <!-- <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="agr_value">Disb No</label>
+                                <input readonly name="agr_value" id="agr_value" type="text"
+                                    class="form-control form-control-md" [value]="AllLanData?.disb_number
+                                    " />
+                            </div> -->
+                            <!-- <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="apac_effective_date">TOTAL AMOUNT</label>
+                                <input readonly name="apac_effective_date" type="text"
+                                    class="form-control form-control-md" [value]="AllLanData?.total_disb_amt" />
+                            </div> -->
+                            <!-- <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="apac_effective_date">POS</label>
+                                <input readonly name="apac_effective_date" type="text"
+                                    class="form-control form-control-md" [value]="AllLanData?.pos
+                                    " />
+                            </div> -->
+                            <!-- <div class=" col-md-3 mb-3">
+                                <label class=" form-control-label" for="apac_effective_date">BAL DISB AMOUNT</label>
+                                <input readonly name="apac_effective_date" type="text"
+                                    class="form-control form-control-md" [value]="AllLanData?.bal_disb_amt" />
+                            </div> -->
+                        </div>
+                        <div class="float-right pb-3">
+                            <button type="button" class="btn btn-success" (click)="SaveData()">Save</button>
+                            <button class="btn btn-primary" style="background-color: #f3c110;border-color: #f3c110;"
+                                type="button" (click)="onSubmit()">Back</button>
+                            <button type="button" class="btn btn-primary" (click)="OnReset()">Reset</button>
+                            <button class="btn btn-primary" type="button"
+                                style="background-color: #2f00ff;border-color: #0400ff;" (click)="CloseRequest()"
+                                [disabled]="formattedData.length==0">Close
+                                Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+    <ng-template pTemplate="caption">
+        
+        <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+            class="global-search search">
+
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+        <tr>
+            <td *ngFor="let col of headerList">
+                {{car[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

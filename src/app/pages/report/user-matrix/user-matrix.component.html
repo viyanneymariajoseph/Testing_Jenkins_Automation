@@ -1,0 +1,116 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4" style="margin-top: 10px;">
+            <ol class=" breadcrumb breadcrumb-links">
+              <li class="breadcrumb-item">
+                <a class="text-gray" [routerLink]="'/dashboards/dashboard'">
+                  <i class="fas fa-home"></i>
+                </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active">
+                User Matrix Report
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="UserMatrixForm">
+        <div class=" card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <!-- UserId Dropdown -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="selectedUser">
+                    Select Userid <span class="text-danger">*</span>
+                  </label>
+                  <select name="selectedUser" id="selectedUser" class="form-control" formControlName="selectedUser">
+                    <option value="">-- Select Userid --</option>
+                    <option *ngFor="let user of _ActiveUserList" [value]="user.userid">
+                      {{ user.userid }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Type Dropdown -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="selectedType">
+                    Select Type <span class="text-danger">*</span>
+                  </label>
+                  <select name="selectedType" id="selectedType" class="form-control" formControlName="selectedType">
+                    <option value="">-- Select Type --</option>
+                    <option value="department">Department Wise</option>
+                    <option value="role">Role Wise</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-sm btn-neutral me-2" (click)="getLogList()" [disabled]="UserMatrixForm.invalid"
+                  [ngStyle]="UserMatrixForm.invalid ? { opacity: 0.6, cursor: 'not-allowed' } : {}">
+                  Search
+                </button>
+                <button class="btn btn-sm btn-neutral" (click)="onDownload()" [disabled]="!formattedData?.length"
+                  [ngStyle]="!formattedData?.length ? { opacity: 0.6, cursor: 'not-allowed' } : {}">
+                  Download
+                </button>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="dataTables_wrapper">
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+              (onPage)="paginate($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                <div class="d-flex justify-content-between align-items-center">
+                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                    class="global-search">
+                </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                    {{col.header}}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                  <td *ngFor="let col of headerList">
+                    {{car[col.field]}}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td [attr.colspan]="headerList.length" class="text-center text-muted">
+                    {{ noDataMessage || 'No records found' }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
