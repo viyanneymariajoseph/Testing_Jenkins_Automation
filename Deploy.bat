@@ -1,24 +1,21 @@
 @echo off
 echo ======== DEPLOY START ========
+set SRC_DIR=%~dp0dist
+set DEST_DIR=C:\inetpub\wwwroot\MyFrontend
 
-set SRC=dist
-set DEST=C:\inetpub\wwwroot\MyFrontend
-
-echo Deploying from "%SRC%" to "%DEST%"
-
-if not exist "%SRC%" (
-  echo ❌ Build output not found! Nothing to deploy.
-  exit /b 1
+echo Deploying from "%SRC_DIR%" to "%DEST_DIR%"
+if not exist "%DEST_DIR%" (
+  echo Target directory does not exist. Creating it...
+  mkdir "%DEST_DIR%"
 )
 
-if not exist "%DEST%" mkdir "%DEST%"
+echo Copying files...
+robocopy "%SRC_DIR%" "%DEST_DIR%" /E /MIR /XD node_modules .git .github
 
-robocopy "%SRC%" "%DEST%" /MIR /XD node_modules .git .github >nul
-
-if %errorlevel% GEQ 8 (
-  echo ❌ Deployment failed (Robocopy error %errorlevel%)
-  exit /b %errorlevel%
+if %errorlevel% LEQ 1 (
+  echo ✅ Deployment successful!
+  exit /b 0
+) else (
+  echo ❌ Deployment failed with error code %errorlevel%!
+  exit /b 3
 )
-
-echo ======== DEPLOY SUCCESS ========
-exit /b 0
