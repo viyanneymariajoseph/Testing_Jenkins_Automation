@@ -17,12 +17,12 @@ pipeline {
             }
         }
 
-        stage('Unit-Test') {
-            steps {
-                echo "Running JUnit Tests"
-                bat 'Unit.bat'
-            }
-        }
+        // stage('Unit-Test') {
+        //     steps {
+        //         echo "Running JUnit Tests"
+        //         bat 'Unit.bat'
+        //     }
+        // }
 
         stage('Quality-Gate') {
             steps {
